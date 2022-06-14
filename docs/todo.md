@@ -1,0 +1,3 @@
+- Zamienić tablicę na set / mapę, aby polegała na ID filmu
+- Zrobić design
+- TypeScript

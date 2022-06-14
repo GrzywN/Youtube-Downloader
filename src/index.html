@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Youtube downloader</title>
+    <link rel="stylesheet" href="styles/index.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header__heading">Youtube Downloader</h1>
+      <p class="header__paragraph">
+        To download your video or playlist, put your link into the text field.
+      </p>
+      <input class="input" id="youtube-url" type="url" name="youtube-url" />
+      <button class="button" id="download-btn">Download</button>
+      <button class="button" id="add-to-list-btn">Add to list</button>
+    </header>
+    <main class="container">
+      <ul class="url-list" id="list">
+        <li class="url-list__item">
+          <a href="https://google.com" class="url-list__link">https://google.com</a>
+        </li>
+      </ul>
+    </main>
+    <script src="render.js"></script>
+  </body>
+</html>

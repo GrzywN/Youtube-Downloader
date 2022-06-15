@@ -45,6 +45,7 @@
     }
   },
   "dependencies": {
+    "bulma": "^0.9.4",
     "electron-squirrel-startup": "^1.0.0",
     "fs": "^0.0.1-security",
     "ytdl-core": "^4.11.0"

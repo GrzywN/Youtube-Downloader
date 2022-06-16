@@ -1,0 +1,12 @@
+  //   static getID(url) {
+  // console.log(ytdl.getURLVideoID(url));
+  // return ytdl.getURLVideoID(url);
+  //   }
+
+      // if (this.linkList.length > 0) {
+    //   this.linkList.forEach(item => {
+    //     item.download();
+    //   });
+    // }
+
+    element.replaceWith(element.cloneNode(true));

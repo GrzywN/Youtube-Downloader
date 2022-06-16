@@ -16,6 +16,8 @@ class Downloader {
   setListeners() {
     DOMElements.download.addEventListener('click', this.downloadHandler.bind(this));
     DOMElements.addToList.addEventListener('click', this.addToListHandler.bind(this));
+    DOMElements.downloadAll.addEventListener('click', this.downloadAllHandler.bind(this));
+    DOMElements.clearTheList.addEventListener('click', this.clearTheListHandler.bind(this));
   }
 
   downloadHandler() {
@@ -42,8 +44,16 @@ class Downloader {
     }
   }
 
-  removeFromList(id) {
-    delete this.linkList[id];
+  downloadAllHandler() {
+    for (const key in this.linkList) {
+      this.linkList[key].download();
+    }
+  }
+
+  clearTheListHandler() {
+    for (const key in this.linkList) {
+      this.linkList[key].removeFromList(key);
+    }
   }
 }
 

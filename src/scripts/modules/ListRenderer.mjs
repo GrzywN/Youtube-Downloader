@@ -1,14 +1,19 @@
 import DOMElements from './DOMElements.mjs';
 
-class Renderer {
+class ListRenderer {
   static linkList;
 
   static renderElementInList(data) {
+    const element = ListRenderer.createListItemElement(data);
+    ListRenderer.addListeners(element);
+    ListRenderer.appendElementToList(element);
+  }
+
+  static createListItemElement(data) {
     const element = document.createElement('div');
     element.dataset.id = data.videoDetails.videoId;
-    element.innerHTML = Renderer.getHTMLFromTemplate(data);
-    Renderer.addListeners(element);
-    Renderer.appendElementToList(element);
+    element.innerHTML = ListRenderer.getHTMLFromTemplate(data);
+    return element;
   }
 
   static getHTMLFromTemplate(data) {
@@ -49,15 +54,15 @@ class Renderer {
     // const edit = element.querySelector('#edit-item');
 
     // download.addEventListener('click', handler);
-    remove.addEventListener('click', Renderer.removeElement.bind(null, element.dataset.id));
+    remove.addEventListener('click', ListRenderer.removeElement.bind(null, element.dataset.id));
     // edit.addEventListener('click', handler);
   }
 
   static removeElement(id) {
     let element = DOMElements.list.querySelector(`[data-id="${id}"]`);
-    Renderer.removeListeners(element);
+    ListRenderer.removeListeners(element);
     DOMElements.list.removeChild(element);
-    Renderer.removeFromList(id);
+    ListRenderer.removeFromList(id);
     // kod do usuniecia id z obiektu
   }
 
@@ -67,7 +72,7 @@ class Renderer {
     // const edit = element.querySelector('#edit-item');
 
     // download.removeEventListener('click', handler);
-    remove.removeEventListener('click', Renderer.removeElement.bind(null, element.dataset.id));
+    remove.removeEventListener('click', ListRenderer.removeElement.bind(null, element.dataset.id));
     // edit.removeEventListener('click', handler);
   }
 
@@ -76,4 +81,4 @@ class Renderer {
   }
 }
 
-export default Renderer;
+export default ListRenderer;

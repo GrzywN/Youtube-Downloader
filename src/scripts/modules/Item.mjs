@@ -1,4 +1,4 @@
-import Renderer from './Renderer.mjs';
+import ListRenderer from './ListRenderer.mjs';
 
 const ytdl = require('ytdl-core');
 const fs = require('fs');
@@ -22,10 +22,9 @@ class Item {
 
   addToList() {
     this.data = this.getData();
-    // console.log(this.data);
-    Renderer.linkList = this.linkList;
+    ListRenderer.linkList = this.linkList;
     this.data.then(
-      data => Renderer.renderElementInList(data),
+      data => ListRenderer.renderElementInList(data),
       err => console.log(err)
     );
   }
@@ -34,6 +33,10 @@ class Item {
     const element = document.createElement('div');
     element.innerHTML = `<a href="${this.url}">${this.url}</a>`;
     return element;
+  }
+
+  removeFromList(id) {
+    ListRenderer.removeElement(id);
   }
 }
 

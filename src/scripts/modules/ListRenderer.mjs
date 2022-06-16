@@ -49,11 +49,16 @@ class ListRenderer {
   }
 
   static addListeners(element) {
-    // const download = element.querySelector('#download-item');
+    const download = element.querySelector('#download-item');
     const remove = element.querySelector('#remove-item');
     // const edit = element.querySelector('#edit-item');
 
-    // download.addEventListener('click', handler);
+    download.addEventListener(
+      'click',
+      ListRenderer.linkList[element.dataset.id].download.bind(
+        ListRenderer.linkList[element.dataset.id]
+      )
+    );
     remove.addEventListener('click', ListRenderer.removeElement.bind(null, element.dataset.id));
     // edit.addEventListener('click', handler);
   }
@@ -67,11 +72,16 @@ class ListRenderer {
   }
 
   static removeListeners(element) {
-    // const download = element.querySelector('#download-item');
+    const download = element.querySelector('#download-item');
     const remove = element.querySelector('#remove-item');
     // const edit = element.querySelector('#edit-item');
 
-    // download.removeEventListener('click', handler);
+    download.removeEventListener(
+      'click',
+      ListRenderer.linkList[element.dataset.id].download.bind(
+        ListRenderer.linkList[element.dataset.id]
+      )
+    );
     remove.removeEventListener('click', ListRenderer.removeElement.bind(null, element.dataset.id));
     // edit.removeEventListener('click', handler);
   }

@@ -48,7 +48,9 @@
     "bulma": "^0.9.4",
     "electron-squirrel-startup": "^1.0.0",
     "fs": "^0.0.1-security",
-    "ytdl-core": "^4.11.0"
+    "open": "^8.4.0",
+    "ytdl-core": "^4.11.0",
+    "ytsr": "^3.8.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.63",

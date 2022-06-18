@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body class="mx-5 my-2">
+    <main class="container">
+      <div class="message is-success is-hidden">
+        <div class="message-header">
+          Success
+          <button class="delete"></button>
+        </div>
+        <div class="message-body">Link added to the list <strong>successfully</strong>.</div>
+      </div>
+      <div class="message is-danger is-hidden">
+        <div class="message-header">
+          Error
+          <button class="delete"></button>
+        </div>
+        <div class="message-body">This link is <strong>invalid</strong>.</div>
+      </div>
+      <div class="box">
+        <div class="field">
+          <label class="label" for="youtube-url"
+            >To download your video or playlist, put your link into the text field.</label
+          >
+          <div class="control">
+            <input
+              class="input"
+              id="youtube-url"
+              type="url"
+              name="youtube-url"
+              value="https://www.youtube.com/watch?v=gvizkej5fz8"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button class="block button is-link" id="download-btn">Download</button>
+            <button class="block button is-link is-outlined" id="add-to-list-btn">
+              Add to list
+            </button>
+            <button class="block button is-warning" id="select-directory-btn">
+              Select Directory
+            </button>
+          </div>
+        </div>
+      </div>
+      <section class="section box" id="list">
+        <h1 class="title is-size-4">Your links</h1>
+      </section>
+      <section class="section">
+        <div class="columns">
+          <div class="column">
+            <button class="button w-100 is-medium is-link" id="download-all-btn">
+              Download all
+            </button>
+          </div>
+          <div class="column">
+            <button class="button w-100 is-medium is-danger is-outlined" id="clear-all-btn">
+              Clear the list
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        (document.querySelectorAll('.message .delete') || []).forEach($delete => {
+          const $message = $delete.parentNode.parentNode;
+
+          $delete.addEventListener('click', () => {
+            $message.parentNode.removeChild($message);
+          });
+        });
+      });
+    </script>
+    <script src="scripts/render.js" type="module"></script>
+  </body>
+</html>

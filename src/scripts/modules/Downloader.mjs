@@ -1,60 +1,48 @@
-import DOMElements from './DOMElements.mjs';
-import Item from './Item.mjs';
+import DOMElements from './Utility/DOMElements.mjs';
 
 const ytdl = require('ytdl-core');
+const { ipcRenderer } = require('electron');
+const { createWriteStream } = require('fs');
 
 class Downloader {
-  constructor(DOMElements) {
-    this.init();
-    this.linkList = {};
+  constructor() {
+    throw new Error('This class cannot be instantiated');
   }
 
-  init() {
-    this.setListeners();
+  static currentPath;
+
+  static init() {
+    Downloader.setListeners();
+    Downloader.setDefaultPath();
   }
 
-  setListeners() {
-    DOMElements.download.addEventListener('click', this.downloadHandler.bind(this));
-    DOMElements.addToList.addEventListener('click', this.addToListHandler.bind(this));
-    DOMElements.downloadAll.addEventListener('click', this.downloadAllHandler.bind(this));
-    DOMElements.clearTheList.addEventListener('click', this.clearTheListHandler.bind(this));
+  static setListeners() {
+    DOMElements.selectPath.addEventListener('click', Downloader.selectPath.bind(this));
+
+    ipcRenderer.on('pathChange', (event, path) => {
+      Downloader.currentPath = path;
+    });
   }
 
-  downloadHandler() {
-    const url = DOMElements.input.value;
-
-    if (ytdl.validateURL(url)) {
-      const item = new Item(url);
-      item.download();
-    }
+  static setDefaultPath() {
+    Downloader.currentPath = ipcRenderer.sendSync('getAppPath') + '/downloads';
   }
 
-  addToListHandler() {
-    const url = DOMElements.input.value;
-
-    if (ytdl.validateURL(url)) {
-      const id = ytdl.getURLVideoID(url);
-      if (this.linkList[id] != null) {
-        alert('This video is already in list');
-      } else {
-        const item = new Item(url, this.linkList);
-        item.addToList();
-        this.linkList[id] = item;
-      }
-    }
+  static selectPath() {
+    ipcRenderer.send('selectDirectory');
   }
 
-  downloadAllHandler() {
-    for (const key in this.linkList) {
-      this.linkList[key].download();
-    }
-  }
+  static download(queueItem) {
+    queueItem.stream = ytdl(`${queueItem.url}`, {
+      filter: format => format.container === 'mp4',
+    });
 
-  clearTheListHandler() {
-    for (const key in this.linkList) {
-      this.linkList[key].removeFromList(key);
-    }
+    // There might be bugs in this function with title's edge cases.
+    const filename = queueItem.title.replaceAll('\\', '').replaceAll('/', '');
+    queueItem.stream.pipe(createWriteStream(`${Downloader.currentPath}/${filename}.mp4`));
   }
 }
 
 export default Downloader;
+
+// TODO: add dropdown support (auto / audio)

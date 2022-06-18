@@ -1,97 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html class="has-background-warning">
   <head>
     <meta charset="UTF-8" />
     <title>Youtube downloader</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel="stylesheet" href="../node_modules/bulma/css/bulma.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: 'Fira Code', monospace !important;
+      }
+
+      body {
+        min-height: 100vh;
+      }
+
+      #search-results,
+      #queue {
+        max-height: 60vh;
+        overflow-y: auto;
+      }
+
+      ::placeholder {
+        color: lightslategray !important;
+      }
+
+      .thumbnail {
+        width: 8rem;
+      }
+    </style>
   </head>
-  <style>
-    body {
-      overflow: auto;
-    }
-    .w-100 {
-      width: 100%;
-    }
-    .thumbnail {
-      width: 8rem;
-    }
-    .thumbnail > img {
-      border-radius: 0.25rem;
-    }
-    #list {
-      max-height: 18rem;
-      overflow-y: auto;
-    }
-  </style>
-  <body class="mx-5 my-2">
-    <main class="container">
-      <div class="message is-success is-hidden">
-        <div class="message-header">
-          Success
-          <button class="delete"></button>
-        </div>
-        <div class="message-body">Link added to the list <strong>successfully</strong>.</div>
-      </div>
-      <div class="message is-danger is-hidden">
-        <div class="message-header">
-          Error
-          <button class="delete"></button>
-        </div>
-        <div class="message-body">This link is <strong>invalid</strong>.</div>
-      </div>
-      <div class="box">
+
+  <body class="is-flex is-flex-direction-column is-justify-content-space-between">
+    <div class="columns is-flex-grow-1">
+      <div class="column p-5 has-background-black-bis">
         <div class="field">
-          <label class="label" for="youtube-url"
-            >To download your video or playlist, put your link into the text field.</label
+          <label class="label has-text-light" for="search-input">Search (or enter URL)</label>
+          <div class="control">
+            <div class="media">
+              <input
+                class="input has-text-light has-background-dark"
+                type="text"
+                placeholder="Search"
+                id="search-input"
+              />
+              <button class="button has-background-dark media-right" id="search-button">
+                <span class="icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                    <path
+                      fill="#fff"
+                      d="M500.3 443.7l-119.7-119.7c27.22-40.41 40.65-90.9 33.46-144.7C401.8 87.79 326.8 13.32 235.2 1.723C99.01-15.51-15.51 99.01 1.724 235.2c11.6 91.64 86.08 166.7 177.6 178.9c53.8 7.189 104.3-6.236 144.7-33.46l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7zM79.1 208c0-70.58 57.42-128 128-128s128 57.42 128 128c0 70.58-57.42 128-128 128S79.1 278.6 79.1 208z"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <section class="section p-2">
+          <h2 class="title">Results</h2>
+          <div id="search-results"></div>
+        </section>
+      </div>
+      <div class="column p-5 has-background-black-ter has-text-light">
+        <div class="field">
+          <label class="label has-text-light" for="search-input"
+            >Select options which you want</label
           >
           <div class="control">
-            <input
-              class="input"
-              id="youtube-url"
-              type="url"
-              name="youtube-url"
-              value="https://www.youtube.com/watch?v=gvizkej5fz8"
-            />
+            <div class="select is-warning">
+              <select id="format-select">
+                <option>Auto</option>
+                <option>Audio only</option>
+              </select>
+            </div>
+            <button class="button is-warning" id="select-path">Select path</button>
+            <button class="button is-link" id="load-queue">Load queue</button>
+            <button class="button is-info" id="save-queue">Save queue</button>
           </div>
         </div>
-        <div class="field">
-          <div class="control">
-            <button class="block button is-link" id="download-btn">Download</button>
-            <button class="block button is-link is-outlined" id="add-to-list-btn">
-              Add to list
-            </button>
-          </div>
+        <section class="section p-2">
+          <h2 class="title">Queue</h2>
+          <div id="queue"></div>
+        </section>
+      </div>
+    </div>
+    <footer
+      class="block has-background-warning is-flex is-justify-content-center is-align-items-center"
+    >
+      <div class="columns">
+        <div class="column">
+          <button class="button is-medium is-link" id="download-all">Download all</button>
+        </div>
+        <div class="column">
+          <button class="button is-medium is-danger is-outlined has-icons-left" id="clear-the-list">
+            Clear the list
+          </button>
         </div>
       </div>
-      <section class="section box" id="list">
-        <h1 class="title is-size-4">Your links</h1>
-      </section>
-      <section class="section">
-        <div class="columns">
-          <div class="column">
-            <button class="button w-100 is-medium is-link" id="download-all-btn">
-              Download all
-            </button>
-          </div>
-          <div class="column">
-            <button class="button w-100 is-medium is-danger is-outlined" id="clear-all-btn">
-              Clear the list
-            </button>
-          </div>
-        </div>
-      </section>
-    </main>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        (document.querySelectorAll('.message .delete') || []).forEach($delete => {
-          const $message = $delete.parentNode.parentNode;
-
-          $delete.addEventListener('click', () => {
-            $message.parentNode.removeChild($message);
-          });
-        });
-      });
-    </script>
-    <script src="scripts/render.js" type="module"></script>
+    </footer>
+    <script src="./scripts/App.js" type="module"></script>
   </body>
 </html>

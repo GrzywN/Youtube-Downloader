@@ -12,7 +12,7 @@ class QueueRenderer extends Renderer {
 
   static getHTMLfromTemplate(resultItem) {
     return `
-      <div class="media box has-background-warning-light is-flex is-align-items-center">
+      <div class="media box has-background-grey-darker is-flex is-align-items-center">
         <figure class="media-left image thumbnail">
           <img class="is-16by9" src="${
             resultItem.thumbnailURL.url
@@ -21,22 +21,22 @@ class QueueRenderer extends Renderer {
         <div class="media-content">
           <div class="block">
             <h2 class="title is-size-6">
-              <a href="${resultItem.url}" class="has-text-dark" target="_blank">
+              <a href="${resultItem.url}" class="has-text-light" target="_blank">
                 ${resultItem.title}
               </a>
             </h2>
-            <p class="subtitle is-size-7"><time>${resultItem.duration}</time></p>
+            <p class="subtitle is-size-7 has-text-light"><time>${resultItem.duration}</time></p>
           </div>
           <div class="block is-flex is-justify-content-end">
             <button
-              class="button is-small is-outlined is-primary"
+              class="button is-rounded is-primary"
               id="download-${resultItem.id}"
               ${resultItem.enabled ? '' : 'disabled'}
             >
               Download
             </button>
             <button
-              class="button is-small is-outlined is-danger ml-4"
+              class="button is-rounded is-danger ml-4"
               id="remove-from-queue-${resultItem.id}"
             >
               Remove from queue

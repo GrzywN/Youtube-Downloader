@@ -5,6 +5,8 @@ class DOMElements {
     ErrorHandler.classCannotBeInstatiated();
   }
 
+  static closeApp = document.getElementById('close-app');
+
   static searchInput = document.getElementById('search-input');
   static searchButton = document.getElementById('search-button');
   static searchResults = document.getElementById('search-results');

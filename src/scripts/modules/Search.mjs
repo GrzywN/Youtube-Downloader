@@ -15,7 +15,12 @@ export default class Search {
   }
 
   setListeners() {
-    DOMElements.searchButton.addEventListener('click', this.search.bind(this));
+    const searchBoundFn = this.search.bind(this);
+
+    DOMElements.searchInput.addEventListener('keypress', e =>
+      e.key === 'Enter' ? searchBoundFn() : null
+    );
+    DOMElements.searchButton.addEventListener('click', searchBoundFn);
   }
 
   search() {

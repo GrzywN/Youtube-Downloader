@@ -1,4 +1,5 @@
 import ErrorHandler from './modules/Utility/ErrorHandler.mjs';
+import TitleBar from './TitleBar.mjs';
 import Search from './modules/Search.mjs';
 import Downloader from './modules/Downloader.mjs';
 import QueueList from './modules/QueueList.mjs';
@@ -9,6 +10,7 @@ class App {
   }
 
   static init() {
+    const titleBar = TitleBar.init();
     const search = new Search();
     const downloader = Downloader.init();
     const queueList = QueueList.init();

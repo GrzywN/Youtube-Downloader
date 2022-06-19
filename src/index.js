@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog, ipcMain } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, Menu } = require('electron');
 const path = require('path');
 const open = require('open');
 
@@ -9,13 +9,16 @@ if (require('electron-squirrel-startup')) {
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
-    width: 1600,
-    height: 900,
+    width: 1366,
+    height: 768,
+    minWidth: 1366,
+    minHeight: 768,
+
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
     },
-    icon: __dirname + '/src/assets/icon.png',
+    frame: false,
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
@@ -37,6 +40,8 @@ const createWindow = () => {
   ipcMain.on('getAppPath', (event, args) => {
     event.returnValue = app.getAppPath();
   });
+
+  Menu.setApplicationMenu(null);
 };
 
 app.on('ready', createWindow);

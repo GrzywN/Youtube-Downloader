@@ -1,5 +1,5 @@
 import DOMElements from './Utility/DOMElements.mjs';
-
+import QueueList from './QueueList.mjs';
 const ytdl = require('ytdl-core');
 const { ipcRenderer } = require('electron');
 const { createWriteStream } = require('fs');
@@ -22,6 +22,8 @@ class Downloader {
     ipcRenderer.on('pathChange', (event, path) => {
       Downloader.currentPath = path;
     });
+
+    DOMElements.downloadAll.addEventListener('click', Downloader.downloadAll.bind(this));
   }
 
   static setDefaultPath() {
@@ -40,6 +42,12 @@ class Downloader {
     // There might be bugs in this function with title's edge cases.
     const filename = queueItem.title.replaceAll('\\', '').replaceAll('/', '');
     queueItem.stream.pipe(createWriteStream(`${Downloader.currentPath}/${filename}.mp4`));
+  }
+
+  static downloadAll() {
+    for (const queueItem of Object.values(QueueList.queueList)) {
+      Downloader.download(queueItem);
+    }
   }
 }
 

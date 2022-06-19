@@ -1,0 +1,36 @@
+* {
+  font-family: 'Fira Code', monospace !important;
+}
+
+body {
+  min-height: 100vh;
+}
+
+#search-results,
+#queue {
+  height: 60vh;
+  overflow-y: auto;
+  border-radius: 0.25rem;
+}
+
+::placeholder {
+  color: lightslategray !important;
+}
+
+.thumbnail {
+  width: 8rem;
+}
+
+::-webkit-scrollbar {
+  width: 0.75rem;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 100vmax;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 100vmax;
+  background-color: hsl(0, 0%, 71%);
+}

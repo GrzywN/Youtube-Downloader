@@ -1,6 +1,6 @@
+import ErrorHandler from './modules/Utility/ErrorHandler.mjs';
 import Search from './modules/Search.mjs';
 import Downloader from './modules/Downloader.mjs';
-import ErrorHandler from './modules/Utility/ErrorHandler.mjs';
 
 class App {
   constructor() {

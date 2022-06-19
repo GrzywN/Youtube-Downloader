@@ -60,6 +60,7 @@ class QueueRenderer extends Renderer {
 
   static removeItem(resultItem) {
     const element = DOMElements.queue.querySelector(`[data-id="${resultItem.id}"]`);
+    console.log(resultItem);
     element.remove();
 
     QueueRenderer.removeListenersFromEntry(element, resultItem);

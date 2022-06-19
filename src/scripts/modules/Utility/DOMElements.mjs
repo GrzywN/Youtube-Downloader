@@ -16,6 +16,7 @@ class DOMElements {
   static queue = document.getElementById('queue');
 
   static downloadAll = document.getElementById('download-all');
+  static addResultsToQueue = document.getElementById('add-results-to-queue');
   static clearTheList = document.getElementById('clear-the-list');
 }
 

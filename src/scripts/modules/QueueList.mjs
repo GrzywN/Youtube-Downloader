@@ -14,9 +14,11 @@ class QueueList {
   }
 
   static addListeners() {
+    const clearTheListButton = DOMElements.clearTheList;
+
     const clearTheListBoundFn = QueueList.clearTheList.bind(this);
 
-    DOMElements.clearTheList.addEventListener('click', clearTheListBoundFn);
+    clearTheListButton.addEventListener('click', clearTheListBoundFn);
   }
 
   static clearTheList() {

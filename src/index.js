@@ -15,6 +15,7 @@ const createWindow = () => {
       nodeIntegration: true,
       contextIsolation: false,
     },
+    icon: __dirname + '/src/assets/icon.png',
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));

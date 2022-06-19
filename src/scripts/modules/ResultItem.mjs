@@ -14,6 +14,7 @@ class ResultItem {
   }
 
   isAbleToDownload() {
+    if (this.type == null) this.type = 'video';
     return this.type === 'video' && !this.isLive && !this.isUpcoming;
   }
 }

@@ -83,6 +83,3 @@ class Downloader {
 }
 
 export default Downloader;
-
-// TODO: add dropdown support (auto / audio)
-// TODO: sprawdzic czy po ID jest szybciej niz po url (pobieranie)

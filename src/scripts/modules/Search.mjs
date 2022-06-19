@@ -2,6 +2,7 @@ import DOMElements from './Utility/DOMElements.mjs';
 import Results from './Results.mjs';
 
 const ytsr = require('ytsr');
+const ytpl = require('ytpl');
 
 export default class Search {
   constructor() {
@@ -20,6 +21,16 @@ export default class Search {
   search() {
     const inputText = DOMElements.searchInput.value;
     if (inputText.length <= 0) return;
+
+    const isPlaylist = ytpl.validateID(inputText) ? true : false;
+    isPlaylist ? this.searchPlaylist(inputText) : this.searchResults(inputText);
+  }
+
+  searchPlaylist(inputText) {
+    ytpl(inputText).then(results => this.render(results));
+  }
+
+  searchResults(inputText) {
     if (this.results != null) {
       this.results.updateResults();
     }

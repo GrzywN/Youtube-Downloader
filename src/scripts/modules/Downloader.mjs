@@ -1,6 +1,10 @@
 import DOMElements from './Utility/DOMElements.mjs';
+import Globals from './Utility/Globals.mjs';
 import QueueList from './QueueList.mjs';
+
 const ytdl = require('ytdl-core');
+const ffmpeg = require('fluent-ffmpeg');
+
 const { ipcRenderer } = require('electron');
 const { createWriteStream } = require('fs');
 
@@ -35,6 +39,11 @@ class Downloader {
   }
 
   static download(queueItem) {
+    if (DOMElements.formatSelect.value === Globals.AUTO_STR) Downloader.downloadVideo(queueItem);
+    if (DOMElements.formatSelect.value === Globals.AUDIO_STR) Downloader.downloadAudio(queueItem);
+  }
+
+  static downloadVideo(queueItem) {
     queueItem.stream = ytdl(`${queueItem.url}`, {
       filter: format => format.container === 'mp4',
     });
@@ -42,6 +51,25 @@ class Downloader {
     // There might be bugs in this function with title's edge cases.
     const filename = queueItem.title.replaceAll('\\', '').replaceAll('/', '');
     queueItem.stream.pipe(createWriteStream(`${Downloader.currentPath}/${filename}.mp4`));
+  }
+
+  static downloadAudio(queueItem) {
+    queueItem.stream = ytdl(`${queueItem.url}`, {
+      quality: 'highestaudio',
+    });
+
+    const filename = queueItem.title.replaceAll('\\', '').replaceAll('/', '');
+    ffmpeg(queueItem.stream).audioBitrate(320).save(`${Downloader.currentPath}/${filename}.mp3`);
+
+    // In case of implementing progress bar
+
+    // .on('progress', p => {
+    //   readline.cursorTo(process.stdout, 0);
+    //   process.stdout.write(`${p.targetSize}kb downloaded`);
+    // })
+    // .on('end', () => {
+    //   console.log('download ended');
+    // });
   }
 
   static downloadAll() {
@@ -57,3 +85,4 @@ class Downloader {
 export default Downloader;
 
 // TODO: add dropdown support (auto / audio)
+// TODO: sprawdzic czy po ID jest szybciej niz po url (pobieranie)

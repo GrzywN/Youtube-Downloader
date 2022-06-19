@@ -58,11 +58,6 @@ class QueueRenderer extends Renderer {
     removeFromQueueButton.onclick = removeFromQueueBoundFn;
   }
 
-  // static removePrevResults() {
-  // this.removeAllListeners();
-  // DOMElements.searchResults.innerHTML = '';
-  // }
-
   static removeItem(resultItem) {
     const element = DOMElements.queue.querySelector(`[data-id="${resultItem.id}"]`);
     element.remove();
@@ -77,19 +72,6 @@ class QueueRenderer extends Renderer {
     downloadButton.onclick = null;
     removeFromQueueButton.onclick = null;
   }
-
-  // static removeAllListeners() {
-  //   const downloadButtons = DOMElements.searchResults.querySelectorAll('[id^="download-"]');
-  //   const removeFromQueueButtons = DOMElements.searchResults.querySelectorAll(
-  //     '[id^="remove-from-queue-"]'
-  //   );
-  //   downloadButtons.forEach(button => {
-  //     button.removeEventListener('click', Downloader.download.bind(null, resultItem));
-  //   });
-  //   removeFromQueueButtons.forEach(button => {
-  //     button.removeEventListener('click', QueueList.removeFromQueue.bind(null, resultItem));
-  //   });
-  // }
 }
 
 export default QueueRenderer;

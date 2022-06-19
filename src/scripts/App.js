@@ -11,9 +11,9 @@ class App {
 
   static init() {
     const titleBar = TitleBar.init();
-    const search = new Search();
     const downloader = Downloader.init();
     const queueList = QueueList.init();
+    const search = new Search();
   }
 }
 

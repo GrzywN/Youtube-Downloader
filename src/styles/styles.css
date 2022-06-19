@@ -76,3 +76,8 @@ body {
 #queue:empty + .list-icon-container {
   display: flex;
 }
+
+#search-results,
+#queue {
+  padding-right: 1rem;
+}

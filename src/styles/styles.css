@@ -2,6 +2,10 @@
   font-family: 'Fira Code', monospace !important;
 }
 
+html {
+  overflow: hidden;
+}
+
 body {
   min-height: 100vh;
 }

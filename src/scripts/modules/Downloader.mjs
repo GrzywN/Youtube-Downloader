@@ -45,6 +45,9 @@ class Downloader {
   }
 
   static downloadAll() {
+    const isEmpty = Object.keys(QueueList.queueList).length === 0;
+    if (isEmpty) return;
+
     for (const queueItem of Object.values(QueueList.queueList)) {
       Downloader.download(queueItem);
     }

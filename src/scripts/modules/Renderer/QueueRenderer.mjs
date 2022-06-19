@@ -51,11 +51,11 @@ class QueueRenderer extends Renderer {
     const downloadButton = element.querySelector('#download-' + element.dataset.id);
     const removeFromQueueButton = element.querySelector('#remove-from-queue-' + element.dataset.id);
 
-    downloadButton.addEventListener('click', Downloader.download.bind(null, resultItem));
-    removeFromQueueButton.addEventListener(
-      'click',
-      QueueList.removeFromQueue.bind(null, resultItem)
-    );
+    const downloadBoundFn = Downloader.download.bind(null, resultItem);
+    const removeFromQueueBoundFn = QueueList.removeFromQueue.bind(null, resultItem);
+
+    downloadButton.onclick = downloadBoundFn;
+    removeFromQueueButton.onclick = removeFromQueueBoundFn;
   }
 
   // static removePrevResults() {
@@ -74,11 +74,8 @@ class QueueRenderer extends Renderer {
     const downloadButton = element.querySelector('#download-' + element.dataset.id);
     const removeFromQueueButton = element.querySelector('#remove-from-queue-' + element.dataset.id);
 
-    downloadButton.removeEventListener('click', Downloader.download.bind(null, resultItem));
-    removeFromQueueButton.removeEventListener(
-      'click',
-      QueueList.removeFromQueue.bind(null, resultItem)
-    );
+    downloadButton.onclick = null;
+    removeFromQueueButton.onclick = null;
   }
 
   // static removeAllListeners() {

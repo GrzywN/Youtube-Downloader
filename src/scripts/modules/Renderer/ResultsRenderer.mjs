@@ -49,8 +49,11 @@ class ResultsRenderer extends Renderer {
     const downloadButton = element.querySelector('#download-' + element.dataset.id);
     const addToQueueButton = element.querySelector('#add-to-queue-' + element.dataset.id);
 
-    downloadButton.addEventListener('click', Downloader.download.bind(null, resultItem));
-    addToQueueButton.addEventListener('click', QueueList.addToQueue.bind(null, resultItem));
+    const downloadBoundFn = Downloader.download.bind(null, resultItem);
+    const addToQueueBoundFn = QueueList.addToQueue.bind(null, resultItem);
+
+    downloadButton.onclick = downloadBoundFn;
+    addToQueueButton.onclick = addToQueueBoundFn;
   }
 
   static removePrevResults() {
@@ -59,14 +62,15 @@ class ResultsRenderer extends Renderer {
   }
 
   static removeAllListeners() {
+    const buttons = DOMElements.searchResults.querySelectorAll(
+      '[id^="download-"], [id^="add-to-queue-"]'
+    );
+
     const downloadButtons = DOMElements.searchResults.querySelectorAll('[id^="download-"]');
     const addToQueueButtons = DOMElements.searchResults.querySelectorAll('[id^="add-to-queue-"]');
 
-    downloadButtons.forEach(button => {
-      button.removeEventListener('click', Downloader.download.bind(null, resultItem));
-    });
-    addToQueueButtons.forEach(button => {
-      button.removeEventListener('click', QueueList.addToQueue.bind(null, resultItem));
+    buttons.forEach(button => {
+      button.onclick = null;
     });
   }
 }

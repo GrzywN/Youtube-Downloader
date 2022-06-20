@@ -40,7 +40,8 @@ class Downloader {
   }
 
   static download(queueItem) {
-    if (DOMElements.formatSelect.value === Globals.AUTO_STR) Downloader.downloadVideo(queueItem);
+    if (DOMElements.formatSelect.value === Globals.VIDEO_AUDIO_STR)
+      Downloader.downloadVideo(queueItem);
     if (DOMElements.formatSelect.value === Globals.AUDIO_STR) Downloader.downloadAudio(queueItem);
   }
 

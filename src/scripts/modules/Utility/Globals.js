@@ -6,7 +6,7 @@ class Globals {
     ErrorHandler.classCannotBeInstatiated();
   }
 
-  static AUTO_STR = 'Auto';
+  static VIDEO_AUDIO_STR = 'Video & Audio';
   static AUDIO_STR = 'Audio only';
 }
 

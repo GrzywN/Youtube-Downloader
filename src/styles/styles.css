@@ -6,51 +6,23 @@ html {
   overflow-y: hidden;
 }
 
-body {
-  height: 100vh;
-}
-
 :focus-visible {
   border: none !important;
-  outline: 4px dashed #eee !important;
+  outline: 0.25rem dashed #eee !important;
 }
 
 .title {
   user-select: none;
 }
 
-#search-results,
-#queue {
-  height: 59vh;
-  overflow-y: auto;
-  border-radius: 0.25rem;
+.input,
+.button,
+.select {
+  transition: all 0.1s linear;
 }
 
 .thumbnail {
   width: 12rem;
-}
-
-::-webkit-scrollbar {
-  width: 0.75rem;
-}
-
-::-webkit-scrollbar-track {
-  border-radius: 100vmax;
-  background-color: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 100vmax;
-  background-color: hsl(0, 0%, 71%);
-}
-
-#title-bar {
-  -webkit-app-region: drag;
-  width: 100%;
-}
-
-#close-app {
-  -webkit-app-region: no-drag;
 }
 
 .list-icon {
@@ -72,6 +44,7 @@ body {
 
   user-select: none;
 }
+
 #search-results:empty + .list-icon-container,
 #queue:empty + .list-icon-container {
   display: flex;
@@ -79,5 +52,31 @@ body {
 
 #search-results,
 #queue {
+  height: 59vh;
+  overflow-y: auto;
+  border-radius: 0.25rem;
   padding-right: 1rem;
+}
+
+#title-bar {
+  -webkit-app-region: drag;
+  width: 100%;
+}
+
+#close-app {
+  -webkit-app-region: no-drag;
+}
+
+::-webkit-scrollbar {
+  width: 0.75rem;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 100vmax;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 100vmax;
+  background-color: hsl(0, 0%, 71%);
 }

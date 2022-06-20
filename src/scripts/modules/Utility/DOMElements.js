@@ -1,4 +1,5 @@
-import ErrorHandler from './ErrorHandler.mjs';
+/* eslint-disable lines-between-class-members */
+import ErrorHandler from './ErrorHandler.js';
 
 class DOMElements {
   constructor() {

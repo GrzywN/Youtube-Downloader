@@ -1,22 +1,16 @@
-import Renderer from './Renderer.mjs';
+import Renderer from './Renderer.js';
 
-import Downloader from '../Downloader.mjs';
-import QueueList from '../QueueList.mjs';
-import ErrorHandler from '../Utility/ErrorHandler.mjs';
-import DOMElements from '../Utility/DOMElements.mjs';
+import Downloader from '../Downloader.js';
+import QueueList from '../QueueList.js';
+import DOMElements from '../Utility/DOMElements.js';
 
 class QueueRenderer extends Renderer {
-  constructor() {
-    ErrorHandler.classCannotBeInstatiated();
-  }
-
   static getHTMLfromTemplate(resultItem) {
     return `
       <div class="media box has-background-grey-darker is-flex is-align-items-center">
         <figure class="media-left image thumbnail">
-          <img class="is-16by9" src="${
-            resultItem.thumbnailURL.url
-          }" alt="Thumbnail" loading="lazy" />
+          <img class="is-16by9" 
+          src="${resultItem.thumbnailURL.url}" alt="Thumbnail" loading="lazy" />
         </figure>
         <div class="media-content">
           <div class="block">
@@ -48,8 +42,8 @@ class QueueRenderer extends Renderer {
   }
 
   static addListeners(element, resultItem) {
-    const downloadButton = element.querySelector('#download-' + element.dataset.id);
-    const removeFromQueueButton = element.querySelector('#remove-from-queue-' + element.dataset.id);
+    const downloadButton = element.querySelector(`#download-${element.dataset.id}`);
+    const removeFromQueueButton = element.querySelector(`#remove-from-queue-${element.dataset.id}`);
 
     const downloadBoundFn = Downloader.download.bind(null, resultItem);
     const removeFromQueueBoundFn = QueueList.removeFromQueue.bind(null, resultItem);
@@ -63,12 +57,12 @@ class QueueRenderer extends Renderer {
     console.log(resultItem);
     element.remove();
 
-    QueueRenderer.removeListenersFromEntry(element, resultItem);
+    QueueRenderer.removeListenersFromEntry(element);
   }
 
-  static removeListenersFromEntry(element, resultItem) {
-    const downloadButton = element.querySelector('#download-' + element.dataset.id);
-    const removeFromQueueButton = element.querySelector('#remove-from-queue-' + element.dataset.id);
+  static removeListenersFromEntry(element) {
+    const downloadButton = element.querySelector(`#download-${element.dataset.id}`);
+    const removeFromQueueButton = element.querySelector(`#remove-from-queue-${element.dataset.id}`);
 
     downloadButton.onclick = null;
     removeFromQueueButton.onclick = null;

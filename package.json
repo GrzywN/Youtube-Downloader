@@ -9,7 +9,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "lint": "eslint --ext .js src"
   },
   "keywords": [],
   "author": {
@@ -60,6 +60,8 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
-    "electron": "19.0.4"
+    "electron": "19.0.4",
+    "eslint": "^8.18.0",
+    "eslint-config-airbnb-base": "^15.0.0"
   }
 }

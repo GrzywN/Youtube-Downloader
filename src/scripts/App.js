@@ -1,8 +1,8 @@
-import ErrorHandler from './modules/Utility/ErrorHandler.mjs';
-import TitleBar from './TitleBar.mjs';
-import Search from './modules/Search.mjs';
-import Downloader from './modules/Downloader.mjs';
-import QueueList from './modules/QueueList.mjs';
+import ErrorHandler from './modules/Utility/ErrorHandler.js';
+import TitleBar from './modules/TitleBar.js';
+import Search from './modules/Search.js';
+import Downloader from './modules/Downloader.js';
+import QueueList from './modules/QueueList.js';
 
 class App {
   constructor() {
@@ -10,9 +10,9 @@ class App {
   }
 
   static init() {
-    const titleBar = TitleBar.init();
-    const downloader = Downloader.init();
-    const queueList = QueueList.init();
+    TitleBar.init();
+    Downloader.init();
+    QueueList.init();
     const search = new Search();
   }
 }

@@ -1,6 +1,7 @@
-import QueueRenderer from './Renderer/QueueRenderer.mjs';
-import ErrorHandler from './Utility/ErrorHandler.mjs';
-import DOMElements from './Utility/DOMElements.mjs';
+/* eslint-disable no-restricted-syntax */
+import QueueRenderer from './Renderer/QueueRenderer.js';
+import ErrorHandler from './Utility/ErrorHandler.js';
+import DOMElements from './Utility/DOMElements.js';
 
 class QueueList {
   static queueList = {};

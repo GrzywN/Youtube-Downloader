@@ -1,7 +1,8 @@
-import QueueList from './QueueList.mjs';
-import ResultItem from './ResultItem.mjs';
-import ResultsRenderer from './Renderer/ResultsRenderer.mjs';
-import DOMElements from './Utility/DOMElements.mjs';
+/* eslint-disable no-restricted-syntax */
+import QueueList from './QueueList.js';
+import ResultItem from './ResultItem.js';
+import ResultsRenderer from './Renderer/ResultsRenderer.js';
+import DOMElements from './Utility/DOMElements.js';
 
 class Results {
   constructor(results) {
@@ -25,6 +26,7 @@ class Results {
 
   render(results) {
     this.resultItemList.length = 0;
+
     for (const result of results) {
       this.resultItemList.push(new ResultItem(result));
     }

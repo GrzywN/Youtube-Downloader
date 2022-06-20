@@ -1,5 +1,5 @@
-import ErrorHandler from './modules/Utility/ErrorHandler.mjs';
-import DOMElements from './modules/Utility/DOMElements.mjs';
+import ErrorHandler from './Utility/ErrorHandler.js';
+import DOMElements from './Utility/DOMElements.js';
 
 class TitleBar {
   constructor() {

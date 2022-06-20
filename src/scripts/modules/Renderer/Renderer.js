@@ -1,4 +1,4 @@
-import ErrorHandler from '../Utility/ErrorHandler.mjs';
+import ErrorHandler from '../Utility/ErrorHandler.js';
 
 class Renderer {
   constructor() {
@@ -20,7 +20,8 @@ class Renderer {
       resultItem.id != null
     ) {
       return true;
-    } else return false;
+    }
+    return false;
   }
 
   static createElement(resultItem) {

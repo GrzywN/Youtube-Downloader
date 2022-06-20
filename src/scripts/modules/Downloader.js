@@ -1,6 +1,7 @@
-import DOMElements from './Utility/DOMElements.mjs';
-import Globals from './Utility/Globals.mjs';
-import QueueList from './QueueList.mjs';
+/* eslint-disable no-restricted-syntax */
+import DOMElements from './Utility/DOMElements.js';
+import Globals from './Utility/Globals.js';
+import QueueList from './QueueList.js';
 
 const ytdl = require('ytdl-core');
 const ffmpeg = require('fluent-ffmpeg');
@@ -31,7 +32,7 @@ class Downloader {
   }
 
   static setDefaultPath() {
-    Downloader.currentPath = ipcRenderer.sendSync('getAppPath') + '/downloads';
+    Downloader.currentPath = `${ipcRenderer.sendSync('getAppPath')}/downloads`;
   }
 
   static selectPath() {
@@ -44,22 +45,22 @@ class Downloader {
   }
 
   static downloadVideo(queueItem) {
-    queueItem.stream = ytdl(`${queueItem.url}`, {
-      filter: format => format.container === 'mp4',
+    const stream = ytdl(`${queueItem.url}`, {
+      filter: (format) => format.container === 'mp4',
     });
 
     // There might be bugs in this function with title's edge cases.
     const filename = queueItem.title.replaceAll('\\', '').replaceAll('/', '');
-    queueItem.stream.pipe(createWriteStream(`${Downloader.currentPath}/${filename}.mp4`));
+    stream.pipe(createWriteStream(`${Downloader.currentPath}/${filename}.mp4`));
   }
 
   static downloadAudio(queueItem) {
-    queueItem.stream = ytdl(`${queueItem.url}`, {
+    const stream = ytdl(`${queueItem.url}`, {
       quality: 'highestaudio',
     });
 
     const filename = queueItem.title.replaceAll('\\', '').replaceAll('/', '');
-    ffmpeg(queueItem.stream).audioBitrate(320).save(`${Downloader.currentPath}/${filename}.mp3`);
+    ffmpeg(stream).audioBitrate(320).save(`${Downloader.currentPath}/${filename}.mp3`);
 
     // In case of implementing progress bar
 

@@ -1,15 +1,10 @@
-import Renderer from './Renderer.mjs';
+import Renderer from './Renderer.js';
 
-import DOMElements from '../Utility/DOMElements.mjs';
-import Downloader from '../Downloader.mjs';
-import ErrorHandler from '../Utility/ErrorHandler.mjs';
-import QueueList from '../QueueList.mjs';
+import DOMElements from '../Utility/DOMElements.js';
+import Downloader from '../Downloader.js';
+import QueueList from '../QueueList.js';
 
 class ResultsRenderer extends Renderer {
-  constructor() {
-    ErrorHandler.classCannotBeInstatiated();
-  }
-
   static getHTMLfromTemplate(resultItem) {
     return `
         <div class="media box has-background-grey-dark is-flex is-align-items-center">
@@ -32,13 +27,13 @@ class ResultsRenderer extends Renderer {
               </div>
               <div class="block is-flex is-justify-content-end">
                 <button ${resultItem.enabled ? '' : 'disabled'} 
-                class="button is-rounded is-primary" id="download-${
-                  resultItem.id
-                }">Download</button>
+                class="button is-rounded is-primary" id="download-${resultItem.id}">
+                  Download
+                </button>
                 <button ${resultItem.enabled ? '' : 'disabled'} 
-                class="button is-rounded is-info ml-4" id="add-to-queue-${
-                  resultItem.id
-                }">Add to queue</button>
+                class="button is-rounded is-info ml-4" id="add-to-queue-${resultItem.id}">
+                  Add to queue
+                </button>
               </div>
             </div>
           </div>
@@ -46,8 +41,8 @@ class ResultsRenderer extends Renderer {
   }
 
   static addListeners(element, resultItem) {
-    const downloadButton = element.querySelector('#download-' + element.dataset.id);
-    const addToQueueButton = element.querySelector('#add-to-queue-' + element.dataset.id);
+    const downloadButton = element.querySelector(`#download-${element.dataset.id}`);
+    const addToQueueButton = element.querySelector(`#add-to-queue-${element.dataset.id}`);
 
     const downloadBoundFn = Downloader.download.bind(null, resultItem);
     const addToQueueBoundFn = QueueList.addToQueue.bind(null, resultItem);
@@ -66,10 +61,7 @@ class ResultsRenderer extends Renderer {
       '[id^="download-"], [id^="add-to-queue-"]'
     );
 
-    const downloadButtons = DOMElements.searchResults.querySelectorAll('[id^="download-"]');
-    const addToQueueButtons = DOMElements.searchResults.querySelectorAll('[id^="add-to-queue-"]');
-
-    buttons.forEach(button => {
+    buttons.forEach((button) => {
       button.onclick = null;
     });
   }

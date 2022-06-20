@@ -25,9 +25,11 @@ class ResultsRenderer extends Renderer {
                 </h2>
                 <p class="subtitle is-size-7 has-text-light"><time>${resultItem.duration}</time></p>
               </div>
+              <progress data-progress-id="${resultItem.id}"
+              class="block progress is-link" value="" max="100"></progress>
               <div class="block is-flex is-justify-content-end">
                 <button ${resultItem.enabled ? '' : 'disabled'} 
-                class="button is-rounded is-primary" id="download-${resultItem.id}">
+                class="button is-rounded is-success has-text-dark" id="download-${resultItem.id}">
                   Download
                 </button>
                 <button ${resultItem.enabled ? '' : 'disabled'} 

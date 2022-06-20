@@ -2,6 +2,7 @@
 import DOMElements from './Utility/DOMElements.js';
 import Globals from './Utility/Globals.js';
 import QueueList from './QueueList.js';
+import DownloadProgress from './DownloadProgress.js';
 
 const ytdl = require('ytdl-core');
 const ffmpeg = require('fluent-ffmpeg');
@@ -50,9 +51,11 @@ class Downloader {
       filter: (format) => format.container === 'mp4',
     });
 
-    // There might be bugs in this function with title's edge cases.
+    // There might be bugs in this function with title name edge cases.
     const filename = queueItem.title.replaceAll('\\', '').replaceAll('/', '');
     stream.pipe(createWriteStream(`${Downloader.currentPath}/${filename}.mp4`));
+
+    DownloadProgress.registerProgress(queueItem, stream);
   }
 
   static downloadAudio(queueItem) {
@@ -63,15 +66,7 @@ class Downloader {
     const filename = queueItem.title.replaceAll('\\', '').replaceAll('/', '');
     ffmpeg(stream).audioBitrate(320).save(`${Downloader.currentPath}/${filename}.mp3`);
 
-    // In case of implementing progress bar
-
-    // .on('progress', p => {
-    //   readline.cursorTo(process.stdout, 0);
-    //   process.stdout.write(`${p.targetSize}kb downloaded`);
-    // })
-    // .on('end', () => {
-    //   console.log('download ended');
-    // });
+    DownloadProgress.registerProgress(queueItem, stream);
   }
 
   static downloadAll() {

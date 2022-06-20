@@ -21,9 +21,11 @@ class QueueRenderer extends Renderer {
             </h2>
             <p class="subtitle is-size-7 has-text-light"><time>${resultItem.duration}</time></p>
           </div>
+          <progress data-progress-id="${resultItem.id}"
+          class="block progress is-link" value="" max="100"></progress>
           <div class="block is-flex is-justify-content-end">
             <button
-              class="button is-rounded is-primary"
+              class="button is-rounded is-success has-text-dark"
               id="download-${resultItem.id}"
               ${resultItem.enabled ? '' : 'disabled'}
             >

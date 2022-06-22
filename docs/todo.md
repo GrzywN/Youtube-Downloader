@@ -5,3 +5,5 @@ https://bobbyhadz.com/blog/javascript-remove-all-event-listeners-from-element
 - Zmienic auto na video + audio
 
 Odwrotny kolor kart, scrolla
+
+- Remove from queue dla results

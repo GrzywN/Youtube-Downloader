@@ -5,6 +5,38 @@ import Downloader from '../Downloader.js';
 import QueueList from '../QueueList.js';
 
 class ResultsRenderer extends Renderer {
+  static render(resultItem, node) {
+    if (!this.areArgumentsValid(resultItem)) return;
+    const element = this.createElement(resultItem);
+    this.addListeners(element, resultItem);
+    this.appendElement(element, node);
+  }
+
+  static areArgumentsValid(resultItem) {
+    if (
+      resultItem.thumbnailURL != null &&
+      resultItem.title != null &&
+      resultItem.duration != null &&
+      resultItem.id != null
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  static createElement(resultItem) {
+    const element = document.createElement('div');
+    element.dataset.id = resultItem.id;
+    element.classList.add('block');
+    const html = this.getHTMLfromTemplate(resultItem);
+    element.innerHTML = html;
+    return element;
+  }
+
+  static appendElement(element, node) {
+    node.appendChild(element);
+  }
+
   static getHTMLfromTemplate(resultItem) {
     return `
         <div class="media box has-background-grey-dark is-flex is-align-items-center">
@@ -59,9 +91,7 @@ class ResultsRenderer extends Renderer {
   }
 
   static removeAllListeners() {
-    const buttons = DOMElements.searchResults.querySelectorAll(
-      '[id^="download-"], [id^="add-to-queue-"]'
-    );
+    const buttons = DOMElements.searchResults.querySelectorAll('[id^="download-"], [id^="add-to-queue-"]');
 
     buttons.forEach((button) => {
       button.onclick = null;

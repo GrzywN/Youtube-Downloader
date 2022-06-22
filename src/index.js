@@ -11,14 +11,14 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1366,
     height: 768,
-    minWidth: 1366,
-    minHeight: 768,
+    // minWidth: 1366,
+    // minHeight: 768,
 
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
     },
-    frame: false,
+    // frame: false,
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));

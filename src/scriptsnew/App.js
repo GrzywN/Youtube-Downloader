@@ -5,7 +5,7 @@ import ResultsList from './modules/ResultsList.js';
 import ResultsUI from './modules/ResultsUI.js';
 // import QueueList from './modules/QueueList.js';
 // import QueueUI from './modules/QueueUI.js';
-// import Downloader from './modules/Downloader.js';
+import Downloader from './modules/Downloader.js';
 // import OptionsUI from './modules/OptionsUI.js';
 // import QueueLoader from './modules/QueueLoader.js';
 
@@ -16,7 +16,7 @@ const resultsList = new ResultsList();
 const resultsUI = new ResultsUI('#search-results');
 // const queueList = new QueueList();
 // const queueUI = new QueueUI();
-// const downloader = new Downloader();
+const downloader = new Downloader('#format-select');
 // const optionsUI = new OptionsUI();
 // const queueLoader = new QueueLoader();
 
@@ -35,36 +35,37 @@ resultsUI.subscribe((id, type) => handleResultsEvents(id, type));
 // queueUI.subscribeEvents((event, type) => handleEvents);
 
 const handleResultsEvents = (id, type) => {
-  //   const item = resultsList.getItemFromID(id);
+  const item = resultsList.getItemFromID(id);
 
-  console.log(id, type);
+  console.log(item);
 
-  //   switch (type) {
-  //     case 'DOWNLOAD': {
-  //       downloader.download(item);
-  //     }
-  //     case 'ADD_TO_QUEUE': {
-  //       queueList.addItem(item);
-  //       queueUI.renderItem(item);
-  //     }
-  //     case 'DOWNLOAD_ALL': {
-  //       for (const item in queueList) {
-  //         downloader.download(item);
-  //       }
-  //     }
-  //     case 'ADD_RESULTS_TO_QUEUE': {
-  //       for (const item in resultsList) {
-  //         queueList.addItem(item);
-  //         queueUI.renderItem(item);
-  //       }
-  //     }
-  //     case 'CLEAR_THE_QUEUE': {
-  //       for (const item in queueList) {
-  //         queueList.removeItem(item);
-  //         queueUI.removeItem(item);
-  //       }
-  //     }
-  //   }
+  switch (type) {
+    case 'DOWNLOAD': {
+      downloader.download(item);
+    }
+    //   case 'ADD_TO_QUEUE': {
+    //     queueList.addItem(item);
+    //     queueUI.renderItem(item);
+    //   }
+    //   case 'DOWNLOAD_ALL': {
+    //     for (const item in queueList) {
+    //       downloader.download(item);
+    //     }
+    //   }
+    //   case 'ADD_RESULTS_TO_QUEUE': {
+    //     for (const item in resultsList) {
+    //       queueList.addItem(item);
+    //       queueUI.renderItem(item);
+    //     }
+    //   }
+    //   case 'CLEAR_THE_QUEUE': {
+    //     for (const item in queueList) {
+    //       queueList.removeItem(item);
+    //       queueUI.removeItem(item);
+    //     }
+    //   }
+    //   {
+  }
 };
 
 // const handleQueueEvents = (id, type) => {

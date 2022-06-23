@@ -78,12 +78,12 @@ progress {
 }
 
 #search-results:empty + .list-icon-container,
-#queue:empty + .list-icon-container {
+#queue-list:empty + .list-icon-container {
   display: flex;
 }
 
 #search-results,
-#queue {
+#queue-list {
   height: 59vh;
   overflow-y: auto;
   border-radius: 0.25rem;

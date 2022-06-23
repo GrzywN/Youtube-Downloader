@@ -3,9 +3,10 @@ import SearchEngine from './modules/SearchEngine.js';
 import ListItemFactory from './modules/ListItemFactory.js';
 import ResultsList from './modules/ResultsList.js';
 import ResultsUI from './modules/ResultsUI.js';
-// import QueueList from './modules/QueueList.js';
-// import QueueUI from './modules/QueueUI.js';
+import QueueList from './modules/QueueList.js';
+import QueueUI from './modules/QueueUI.js';
 import Downloader from './modules/Downloader.js';
+import GlobalButtonsUI from './modules/GlobalButtonsUI.js';
 // import OptionsUI from './modules/OptionsUI.js';
 // import QueueLoader from './modules/QueueLoader.js';
 
@@ -14,9 +15,14 @@ const searchEngine = new SearchEngine();
 const listItemFactory = new ListItemFactory();
 const resultsList = new ResultsList();
 const resultsUI = new ResultsUI('#search-results');
-// const queueList = new QueueList();
-// const queueUI = new QueueUI();
+const queueList = new QueueList();
+const queueUI = new QueueUI('#queue-list');
 const downloader = new Downloader('#format-select');
+const globalButtonsUI = new GlobalButtonsUI({
+  downloadAll: '#download-all',
+  addResultsToQueue: '#add-results-to-queue',
+  clearQueue: '#clear-the-list',
+});
 // const optionsUI = new OptionsUI();
 // const queueLoader = new QueueLoader();
 
@@ -32,72 +38,79 @@ searchUI.subscribe(async (value) => {
 });
 
 resultsUI.subscribe((id, type) => handleResultsEvents(id, type));
-// queueUI.subscribeEvents((event, type) => handleEvents);
+queueUI.subscribe((id, type) => handleQueueEvents(id, type));
+globalButtonsUI.subscribe((type) => handleGlobalEvents(type));
 
 const handleResultsEvents = (id, type) => {
   const item = resultsList.getItemFromID(id);
 
-  console.log(item);
-
   switch (type) {
     case 'DOWNLOAD': {
       downloader.download(item);
+      break;
     }
-    //   case 'ADD_TO_QUEUE': {
-    //     queueList.addItem(item);
-    //     queueUI.renderItem(item);
-    //   }
-    //   case 'DOWNLOAD_ALL': {
-    //     for (const item in queueList) {
-    //       downloader.download(item);
-    //     }
-    //   }
-    //   case 'ADD_RESULTS_TO_QUEUE': {
-    //     for (const item in resultsList) {
-    //       queueList.addItem(item);
-    //       queueUI.renderItem(item);
-    //     }
-    //   }
-    //   case 'CLEAR_THE_QUEUE': {
-    //     for (const item in queueList) {
-    //       queueList.removeItem(item);
-    //       queueUI.removeItem(item);
-    //     }
-    //   }
-    //   {
+    case 'ADD_TO_QUEUE': {
+      const isOnQueue = queueList.isOnQueue(item);
+
+      if (isOnQueue) {
+        console.log('Already on queue');
+      } else {
+        queueList.addItem(item);
+        queueUI.renderItem(item);
+      }
+
+      break;
+    }
   }
 };
 
-// const handleQueueEvents = (id, type) => {
-//   const item = queueList.getItemFromID(id);
+const handleQueueEvents = (id, type) => {
+  const item = queueList.getItemFromID(id);
+  switch (type) {
+    case 'DOWNLOAD': {
+      downloader.download(item);
+      break;
+    }
+    case 'REMOVE_FROM_QUEUE': {
+      queueUI.removeItem(item);
+      queueList.removeItem(item);
+      break;
+    }
+  }
+};
 
-//   switch (type) {
-//     case 'DOWNLOAD': {
-//       downloader.download(item);
-//     }
-//     case 'REMOVE_FROM_QUEUE': {
-//       queueList.removeItem(item);
-//       queueUI.removeItem(item);
-//     }
-//     case 'DOWNLOAD_ALL': {
-//       for (const item in queueList) {
-//         downloader.download(item);
-//       }
-//     }
-//     case 'ADD_RESULTS_TO_QUEUE': {
-//       for (const item in resultsList) {
-//         queueList.addItem(item);
-//         queueUI.renderItem(item);
-//       }
-//     }
-//     case 'CLEAR_THE_QUEUE': {
-//       for (const item in queueList) {
-//         queueList.removeItem(item);
-//         queueUI.removeItem(item);
-//       }
-//     }
-//   }
-// };
+const handleGlobalEvents = (type) => {
+  const queue = queueList.getList();
+  const results = resultsList.getList();
+
+  switch (type) {
+    case 'DOWNLOAD_ALL': {
+      for (const item in queue) {
+        downloader.download(queue[item]);
+      }
+      break;
+    }
+    case 'ADD_RESULTS_TO_QUEUE': {
+      for (const item in results) {
+        const isOnQueue = queueList.isOnQueue(results[item]);
+        if (isOnQueue) {
+          console.log('Already on queue');
+        } else {
+          queueList.addItem(results[item]);
+          queueUI.renderItem(results[item]);
+        }
+      }
+      break;
+    }
+    case 'CLEAR_THE_QUEUE': {
+      for (const item in queue) {
+        queueUI.removeItem(queue[item]);
+        queueList.removeItem(queue[item]);
+      }
+      break;
+    }
+  }
+};
 
 // optionsUI.subscribe(({ option, type }) => {
 //     switch (type) {
@@ -117,3 +130,4 @@ const handleResultsEvents = (id, type) => {
 // });
 
 // TODO: Dodać listenery do całych results i queue
+// TODO: dodać subscribe do progressu

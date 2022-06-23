@@ -5,6 +5,38 @@ import QueueList from '../QueueList.js';
 import DOMElements from '../Utility/DOMElements.js';
 
 class QueueRenderer extends Renderer {
+  static render(resultItem, node) {
+    if (!this.areArgumentsValid(resultItem)) return;
+    const element = this.createElement(resultItem);
+    this.addListeners(element, resultItem);
+    this.appendElement(element, node);
+  }
+
+  static areArgumentsValid(resultItem) {
+    if (
+      resultItem.thumbnailURL != null &&
+      resultItem.title != null &&
+      resultItem.duration != null &&
+      resultItem.id != null
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  static createElement(resultItem) {
+    const element = document.createElement('div');
+    element.dataset.id = resultItem.id;
+    element.classList.add('block');
+    const html = this.getHTMLfromTemplate(resultItem);
+    element.innerHTML = html;
+    return element;
+  }
+
+  static appendElement(element, node) {
+    node.appendChild(element);
+  }
+
   static getHTMLfromTemplate(resultItem) {
     return `
       <div class="media box has-background-grey-darker is-flex is-align-items-center">
@@ -50,8 +82,12 @@ class QueueRenderer extends Renderer {
     const downloadBoundFn = Downloader.download.bind(null, resultItem);
     const removeFromQueueBoundFn = QueueList.removeFromQueue.bind(null, resultItem);
 
-    downloadButton.onclick = downloadBoundFn;
-    removeFromQueueButton.onclick = removeFromQueueBoundFn;
+    downloadButton.onclick = this.#sendEvent.bind(this, element.dataset.id, 'DOWNLOAD');
+    removeFromQueueButton.onclick = this.#sendEvent.bind(
+      this,
+      element.dataset.id,
+      'REMOVE_FROM_QUEUE'
+    );
   }
 
   static removeItem(resultItem) {

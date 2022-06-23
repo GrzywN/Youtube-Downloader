@@ -12,20 +12,16 @@ export default class ResultsUI {
     if (this.containerElement == null) throw new Error('ResultsUI: Container element not found');
     if (this.resultsList == null) throw new Error('ResultsUI: Results list not set');
 
+    this.#removePrevResults();
+
     for (const result in this.resultsList) {
       this.#renderResult(this.resultsList[result]);
     }
-
-    const element = this.#createElement();
-
-    this.#removePrevResults();
   }
 
   #renderResult(result) {
     if (!this.#areArgumentsValid(result)) return;
-
     const element = this.#createElement(result);
-    if (element == null) return;
 
     this.#addListeners(element);
     this.#appendElement(element);
@@ -36,8 +32,7 @@ export default class ResultsUI {
       result.thumbnailURL != null &&
       result.title != null &&
       result.duration != null &&
-      result.id != null &&
-      result.enabled == true
+      result.id != null
     ) {
       return true;
     }
@@ -45,9 +40,6 @@ export default class ResultsUI {
   }
 
   #createElement(result) {
-    // For some reason there is a bug, where result is undefined and it throws an Error, I checked everything and it doesn't make any sense to me.
-    if (result == null) return;
-
     const element = document.createElement('div');
     element.dataset.id = result.id;
     element.classList.add('block');
@@ -99,14 +91,25 @@ export default class ResultsUI {
     const addToQueueButton = element.querySelector(`#add-to-queue-${element.dataset.id}`);
 
     downloadButton.onclick = this.#sendEvent.bind(this, element.dataset.id, 'DOWNLOAD');
-    addToQueueButton.onclick = this.#sendEvent.bind(this, element.dataset.id, 'DOWNLOAD');
+    addToQueueButton.onclick = this.#sendEvent.bind(this, element.dataset.id, 'ADD_TO_QUEUE');
   }
 
   #appendElement(element) {
     this.containerElement.appendChild(element);
   }
 
-  #removePrevResults() {}
+  #removePrevResults() {
+    this.#removeAllListeners();
+    this.containerElement.innerHTML = '';
+  }
+
+  #removeAllListeners() {
+    const buttons = this.containerElement.querySelectorAll(
+      '[id^="download-"], [id^="add-to-queue-"]'
+    );
+
+    buttons.forEach((button) => (button.onclick = null));
+  }
 
   #sendEvent(id, type) {
     for (const callback of this.subscribers) {

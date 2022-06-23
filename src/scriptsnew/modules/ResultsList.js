@@ -1,7 +1,7 @@
 export default class ResultsList {
   update(list) {
     delete this.list;
-    const copiedList = ResultsList.getCopiedObject(list);
+    const copiedList = ResultsList.#getCopiedObject(list);
     this.list = copiedList;
   }
 
@@ -16,7 +16,7 @@ export default class ResultsList {
     return null;
   }
 
-  static getCopiedObject(object) {
+  static #getCopiedObject(object) {
     return JSON.parse(JSON.stringify(object));
   }
 }

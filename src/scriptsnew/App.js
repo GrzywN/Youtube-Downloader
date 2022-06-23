@@ -26,7 +26,12 @@ const globalButtonsUI = new GlobalButtonsUI({
 // const optionsUI = new OptionsUI();
 // const queueLoader = new QueueLoader();
 
-searchUI.subscribe(async (value) => {
+searchUI.subscribe((value) => handleSearchEvents(value));
+resultsUI.subscribe((id, type) => handleResultsEvents(id, type));
+queueUI.subscribe((id, type) => handleQueueEvents(id, type));
+globalButtonsUI.subscribe((type) => handleGlobalButtonsEvents(type));
+
+const handleSearchEvents = async (value) => {
   searchEngine.setValue(value);
   const results = await searchEngine.search();
   listItemFactory.createItems(results);
@@ -35,11 +40,7 @@ searchUI.subscribe(async (value) => {
   const listOfResults = resultsList.getList();
   resultsUI.setResultsList(listOfResults);
   resultsUI.renderResults();
-});
-
-resultsUI.subscribe((id, type) => handleResultsEvents(id, type));
-queueUI.subscribe((id, type) => handleQueueEvents(id, type));
-globalButtonsUI.subscribe((type) => handleGlobalEvents(type));
+};
 
 const handleResultsEvents = (id, type) => {
   const item = resultsList.getItemFromID(id);
@@ -79,7 +80,7 @@ const handleQueueEvents = (id, type) => {
   }
 };
 
-const handleGlobalEvents = (type) => {
+const handleGlobalButtonsEvents = (type) => {
   const queue = queueList.getList();
   const results = resultsList.getList();
 

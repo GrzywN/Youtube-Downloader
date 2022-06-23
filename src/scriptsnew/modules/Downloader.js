@@ -10,23 +10,41 @@ const AUDIO_STR = 'Audio only';
 export default class Downloader {
   constructor(formatSelectSelector) {
     this.formatSelectElement = document.querySelector(formatSelectSelector);
-    this.currentPath = this.getDefaultPath();
+    this.currentPath = this.#getDefaultPath();
+    this.#setIpcListener();
+    this.selectedFormat = VIDEO_AUDIO_STR;
     this.subscribers = [];
   }
 
-  getDefaultPath() {
+  #getDefaultPath() {
     return `${ipcRenderer.sendSync('getAppPath')}/downloads`;
   }
 
+  #setIpcListener() {
+    ipcRenderer.on('pathChange', (event, path) => {
+      this.currentPath = path;
+    });
+  }
+
+  updateSelectedFormat() {
+    this.selectedFormat = this.formatSelectElement.value;
+  }
+
+  setPath() {
+    ipcRenderer.send('selectDirectory');
+  }
+
   download(item) {
-    if (this.formatSelectElement.value === VIDEO_AUDIO_STR) {
-      this.downloadVideo(item);
-    } else if (this.formatSelectElement.value === AUDIO_STR) {
-      this.downloadAudio(item);
+    if (this.selectedFormat === VIDEO_AUDIO_STR) {
+      this.#downloadVideo(item);
+    } else if (this.selectedFormat === AUDIO_STR) {
+      this.#downloadAudio(item);
+    } else {
+      throw new Error('Downloader: Invalid format');
     }
   }
 
-  downloadVideo(item) {
+  #downloadVideo(item) {
     const stream = ytdl(item.id, {
       filter: (format) => format.container === 'mp4',
     });
@@ -35,10 +53,10 @@ export default class Downloader {
     const filename = item.title.replaceAll('\\', '').replaceAll('/', '');
     stream.pipe(createWriteStream(`${this.currentPath}/${filename}.mp4`));
 
-    this.broadcastProgress(item, stream);
+    this.#broadcastProgress(item, stream);
   }
 
-  downloadAudio(item) {
+  #downloadAudio(item) {
     const stream = ytdl(`${item.url}`, {
       quality: 'highestaudio',
     });
@@ -46,10 +64,10 @@ export default class Downloader {
     const filename = item.title.replaceAll('\\', '').replaceAll('/', '');
     ffmpeg(stream).audioBitrate(320).save(`${this.currentPath}/${filename}.mp3`);
 
-    this.broadcastProgress(item, stream);
+    this.#broadcastProgress(item, stream);
   }
 
-  broadcastProgress(item, stream) {
+  #broadcastProgress(item, stream) {
     this.subscribers.forEach((callback) => {
       callback(item, stream);
     });

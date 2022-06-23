@@ -7,7 +7,7 @@ import QueueList from './modules/QueueList.js';
 import QueueUI from './modules/QueueUI.js';
 import Downloader from './modules/Downloader.js';
 import GlobalButtonsUI from './modules/GlobalButtonsUI.js';
-// import OptionsUI from './modules/OptionsUI.js';
+import OptionsUI from './modules/OptionsUI.js';
 // import QueueLoader from './modules/QueueLoader.js';
 
 const searchUI = new SearchUI('#search-input', '#search-button');
@@ -23,13 +23,19 @@ const globalButtonsUI = new GlobalButtonsUI({
   addResultsToQueue: '#add-results-to-queue',
   clearQueue: '#clear-the-list',
 });
-// const optionsUI = new OptionsUI();
+const optionsUI = new OptionsUI({
+  formatSelect: '#format-select',
+  selectPath: '#select-path',
+  loadQueue: '#load-queue',
+  saveQueue: '#save-queue',
+});
 // const queueLoader = new QueueLoader();
 
 searchUI.subscribe((value) => handleSearchEvents(value));
 resultsUI.subscribe((id, type) => handleResultsEvents(id, type));
 queueUI.subscribe((id, type) => handleQueueEvents(id, type));
 globalButtonsUI.subscribe((type) => handleGlobalButtonsEvents(type));
+optionsUI.subscribe((option, type) => handleOptionsEvents(option, type));
 
 const handleSearchEvents = async (value) => {
   searchEngine.setValue(value);
@@ -113,22 +119,25 @@ const handleGlobalButtonsEvents = (type) => {
   }
 };
 
-// optionsUI.subscribe(({ option, type }) => {
-//     switch (type) {
-//         case 'SELECT_CHANGE': {
-//             downloader.setFormat(option);
-//         }
-//         case 'SELECT_PATH': {
-//             downloader.setPath(option);
-//         }
-//         case 'LOAD_QUEUE': {
-//             queueLoader.load();
-//         }
-//         case 'SAVE_QUEUE': {
-//             queueLoader.save();
-//         }
-//     }
-// });
-
-// TODO: Dodać listenery do całych results i queue
-// TODO: dodać subscribe do progressu
+const handleOptionsEvents = (type) => {
+  switch (type) {
+    case 'CHANGE_FORMAT': {
+      downloader.updateSelectedFormat();
+      break;
+    }
+    case 'SELECT_PATH': {
+      downloader.setPath();
+      break;
+    }
+    case 'LOAD_QUEUE': {
+      console.log('LOAD_QUEUE');
+      // queueLoader.load();
+      break;
+    }
+    case 'SAVE_QUEUE': {
+      console.log('SAVE_QUEUE');
+      // queueLoader.save();
+      break;
+    }
+  }
+};

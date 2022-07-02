@@ -53,7 +53,8 @@ export default class Downloader {
     const filename = item.title.replaceAll('\\', '').replaceAll('/', '');
     stream.pipe(createWriteStream(`${this.currentPath}/${filename}.mp4`));
 
-    this.#broadcastProgress(item, stream);
+    const id = item.id;
+    this.#broadcastProgress(id, stream);
   }
 
   #downloadAudio(item) {
@@ -64,12 +65,13 @@ export default class Downloader {
     const filename = item.title.replaceAll('\\', '').replaceAll('/', '');
     ffmpeg(stream).audioBitrate(320).save(`${this.currentPath}/${filename}.mp3`);
 
-    this.#broadcastProgress(item, stream);
+    const id = item.id;
+    this.#broadcastProgress(id, stream);
   }
 
-  #broadcastProgress(item, stream) {
+  #broadcastProgress(id, stream) {
     this.subscribers.forEach((callback) => {
-      callback(item, stream);
+      callback(id, stream);
     });
   }
 

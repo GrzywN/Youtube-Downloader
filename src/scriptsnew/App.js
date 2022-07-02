@@ -8,6 +8,7 @@ import QueueUI from './modules/QueueUI.js';
 import Downloader from './modules/Downloader.js';
 import GlobalButtonsUI from './modules/GlobalButtonsUI.js';
 import OptionsUI from './modules/OptionsUI.js';
+import DownloadingProgress from './modules/DownloadingProgress.js';
 // import QueueLoader from './modules/QueueLoader.js';
 
 const searchUI = new SearchUI('#search-input', '#search-button');
@@ -29,6 +30,7 @@ const optionsUI = new OptionsUI({
   loadQueue: '#load-queue',
   saveQueue: '#save-queue',
 });
+const progress = new DownloadingProgress();
 // const queueLoader = new QueueLoader();
 
 searchUI.subscribe((value) => handleSearchEvents(value));
@@ -36,6 +38,7 @@ resultsUI.subscribe((id, type) => handleResultsEvents(id, type));
 queueUI.subscribe((id, type) => handleQueueEvents(id, type));
 globalButtonsUI.subscribe((type) => handleGlobalButtonsEvents(type));
 optionsUI.subscribe((option, type) => handleOptionsEvents(option, type));
+downloader.subscribe((id, stream) => handleDownloadEvents(id, stream));
 
 const handleSearchEvents = async (value) => {
   searchEngine.setValue(value);
@@ -140,4 +143,8 @@ const handleOptionsEvents = (type) => {
       break;
     }
   }
+};
+
+const handleDownloadEvents = (id, stream) => {
+  progress.registerProgress(id, stream);
 };

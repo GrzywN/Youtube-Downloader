@@ -10,8 +10,16 @@
   </head>
   <body class="is-flex is-flex-direction-column is-justify-content-space-between">
     <div class="message-header has-background-black-ter is-radiusless" id="title-bar">
-      <p class="has-text-light mx-auto has-text-weight-bold">Youtube Downloader</p>
-      <button class="delete" aria-label="delete" id="close-app" tabindex="-1"></button>
+      <p class="has-text-light mr-auto has-text-weight-bold">Youtube Downloader</p>
+      <div>
+        <button class="delete delete--no-icon" id="minimize-app" tabindex="-1">
+          <img src="./assets/minimize.svg" alt="" width="20" height="20" />
+        </button>
+        <button class="delete delete--no-icon" id="maximize-app" tabindex="-1">
+          <img src="./assets/maximize.svg" alt="" width="20" height="20" />
+        </button>
+        <button class="delete" id="close-app" tabindex="-1"></button>
+      </div>
     </div>
     <div class="columns is-flex-grow-1 is-flex-shrink-1">
       <div class="column p-5 has-background-grey-darker">
@@ -48,7 +56,8 @@
               />
             </svg>
             <p class="subtitle has-text-light has-text-centered">
-              You can search for videos by <span class="has-text-weight-bold">keywords</span>,
+              You can search for videos by
+              <span class="has-text-weight-bold">keywords</span>,
               <span class="has-text-weight-bold">URLs</span> or
               <span class="has-text-weight-bold">playlist URL</span>.
             </p>
@@ -74,7 +83,7 @@
         </div>
         <section class="section p-2 is-relative">
           <h2 class="title">Queue</h2>
-          <div id="queue"></div>
+          <div id="queue-list"></div>
           <div class="list-icon-container">
             <svg
               class="list-icon"

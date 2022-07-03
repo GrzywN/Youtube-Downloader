@@ -5,3 +5,10 @@ https://bobbyhadz.com/blog/javascript-remove-all-event-listeners-from-element
 - Zmienic auto na video + audio
 
 Odwrotny kolor kart, scrolla
+
+- Remove from queue dla results
+
+// TODO: Dodać listenery do całych results i queue
+// TODO: dodać subscribe do progressu
+
+add titlebar and progress bars

@@ -76,30 +76,28 @@ export default class QueueUI {
     const downloadBtn = element.querySelector(`#download-${element.dataset.id}`);
     const removeFromQueueBtn = element.querySelector(`#remove-from-queue-${element.dataset.id}`);
 
-    downloadBtn.onclick = this.#sendEvent.bind(this, element.dataset.id, 'DOWNLOAD');
-    removeFromQueueBtn.onclick = this.#sendEvent.bind(
-      this,
-      element.dataset.id,
-      'REMOVE_FROM_QUEUE'
-    );
+    downloadBtn.onclick = this.#notify.bind(this, element.dataset.id, 'DOWNLOAD');
+    removeFromQueueBtn.onclick = this.#notify.bind(this, element.dataset.id, 'REMOVE_FROM_QUEUE');
   }
 
   #appendElement(element) {
     this.containerEl.appendChild(element);
   }
 
-  #sendEvent(id, type) {
-    for (const callback of this.subscribers) {
-      callback(id, type);
-    }
+  #notify(id, type) {
+    this.subscribers.forEach((subscriber) => subscriber(id, type));
+  }
+
+  removeItem(item) {
+    const element = this.containerEl.querySelector(`[data-id="${item.id}"]`);
+    this.containerEl.removeChild(element);
   }
 
   subscribe(callback) {
     this.subscribers.push(callback);
   }
 
-  removeItem(item) {
-    const element = this.containerEl.querySelector(`[data-id="${item.id}"]`);
-    this.containerEl.removeChild(element);
+  unsubscribe(callback) {
+    this.subscribers = this.subscribers.filter((subscriber) => subscriber !== callback);
   }
 }

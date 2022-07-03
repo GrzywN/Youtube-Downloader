@@ -54,7 +54,7 @@ export default class Downloader {
     stream.pipe(createWriteStream(`${this.currentPath}/${filename}.mp4`));
 
     const id = item.id;
-    this.#broadcastProgress(id, stream);
+    this.#notify(id, stream);
   }
 
   #downloadAudio(item) {
@@ -66,16 +66,18 @@ export default class Downloader {
     ffmpeg(stream).audioBitrate(320).save(`${this.currentPath}/${filename}.mp3`);
 
     const id = item.id;
-    this.#broadcastProgress(id, stream);
+    this.#notify(id, stream);
   }
 
-  #broadcastProgress(id, stream) {
-    this.subscribers.forEach((callback) => {
-      callback(id, stream);
-    });
+  #notify(id, stream) {
+    this.subscribers.forEach((callback) => callback(id, stream));
   }
 
   subscribe(callback) {
     this.subscribers.push(callback);
+  }
+
+  unsubscribe(callback) {
+    this.subscribers = this.subscribers.filter((subscriber) => subscriber !== callback);
   }
 }

@@ -90,8 +90,8 @@ export default class ResultsUI {
     const downloadButton = element.querySelector(`#download-${element.dataset.id}`);
     const addToQueueButton = element.querySelector(`#add-to-queue-${element.dataset.id}`);
 
-    downloadButton.onclick = this.#sendEvent.bind(this, element.dataset.id, 'DOWNLOAD');
-    addToQueueButton.onclick = this.#sendEvent.bind(this, element.dataset.id, 'ADD_TO_QUEUE');
+    downloadButton.onclick = this.#notify.bind(this, element.dataset.id, 'DOWNLOAD');
+    addToQueueButton.onclick = this.#notify.bind(this, element.dataset.id, 'ADD_TO_QUEUE');
   }
 
   #appendElement(element) {
@@ -111,13 +111,15 @@ export default class ResultsUI {
     buttons.forEach((button) => (button.onclick = null));
   }
 
-  #sendEvent(id, type) {
-    for (const callback of this.subscribers) {
-      callback(id, type);
-    }
+  #notify(id, type) {
+    this.subscribers.forEach((subscriber) => subscriber(id, type));
   }
 
   subscribe(callback) {
     this.subscribers.push(callback);
+  }
+
+  unsubscribe(callback) {
+    this.subscribers = this.subscribers.filter((subscriber) => subscriber !== callback);
   }
 }

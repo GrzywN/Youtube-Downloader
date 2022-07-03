@@ -35,14 +35,14 @@ const optionsUI = new OptionsUI({
 const progress = new DownloadProgress();
 const queueLoader = new QueueLoader();
 
-searchUI.subscribe((value) => handleSearchEvents(value));
-resultsUI.subscribe((id, type) => handleResultsEvents(id, type));
-queueUI.subscribe((id, type) => handleQueueEvents(id, type));
-globalButtonsUI.subscribe((type) => handleGlobalButtonsEvents(type));
-optionsUI.subscribe((type) => handleOptionsEvents(type));
-downloader.subscribe((id, stream) => handleDownloadEvents(id, stream));
+searchUI.subscribe((value) => onSearch(value));
+resultsUI.subscribe((id, type) => onResultEvent(id, type));
+queueUI.subscribe((id, type) => onQueueEvent(id, type));
+globalButtonsUI.subscribe((type) => onGlobalButtonEvent(type));
+optionsUI.subscribe((type) => onOptionEvent(type));
+downloader.subscribe((id, stream) => onDownload(id, stream));
 
-const handleSearchEvents = async (value) => {
+async function onSearch(value) {
   searchEngine.setValue(value);
   const results = await searchEngine.search();
   listItemFactory.createItems(results);
@@ -51,9 +51,9 @@ const handleSearchEvents = async (value) => {
   const listOfResults = resultsList.getList();
   resultsUI.setResultsList(listOfResults);
   resultsUI.renderResults();
-};
+}
 
-const handleResultsEvents = (id, type) => {
+function onResultEvent(id, type) {
   const item = resultsList.getItemFromID(id);
 
   switch (type) {
@@ -74,9 +74,9 @@ const handleResultsEvents = (id, type) => {
       break;
     }
   }
-};
+}
 
-const handleQueueEvents = (id, type) => {
+function onQueueEvent(id, type) {
   const item = queueList.getItemFromID(id);
   switch (type) {
     case 'DOWNLOAD': {
@@ -89,9 +89,9 @@ const handleQueueEvents = (id, type) => {
       break;
     }
   }
-};
+}
 
-const handleGlobalButtonsEvents = (type) => {
+function onGlobalButtonEvent(type) {
   const queue = queueList.getList();
   const results = resultsList.getList();
 
@@ -122,9 +122,9 @@ const handleGlobalButtonsEvents = (type) => {
       break;
     }
   }
-};
+}
 
-const handleOptionsEvents = (type) => {
+function onOptionEvent(type) {
   switch (type) {
     case 'CHANGE_FORMAT': {
       downloader.updateSelectedFormat();
@@ -161,8 +161,8 @@ const handleOptionsEvents = (type) => {
       break;
     }
   }
-};
+}
 
-const handleDownloadEvents = (id, stream) => {
+function onDownload(id, stream) {
   progress.registerProgress(id, stream);
-};
+}

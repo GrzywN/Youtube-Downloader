@@ -17,10 +17,18 @@ export default class SearchUI {
     const value = this.inputElement.value;
     if (value <= 0) return;
 
-    this.subscribers.forEach((callback) => callback(value));
+    this.#notify(value);
   }
 
   subscribe(callback) {
     this.subscribers.push(callback);
+  }
+
+  unsubscribe(callback) {
+    this.subscribers = this.subscribers.filter((subscriber) => subscriber !== callback);
+  }
+
+  #notify(value) {
+    this.subscribers.forEach((subscriber) => subscriber(value));
   }
 }

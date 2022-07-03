@@ -10,19 +10,21 @@ export default class OptionsUI {
   }
 
   #setListeners() {
-    this.formatSelectEl.onchange = this.#sendEvent.bind(this, 'CHANGE_FORMAT');
-    this.selectPathEl.onclick = this.#sendEvent.bind(this, 'SELECT_PATH');
-    this.loadQueueEl.onclick = this.#sendEvent.bind(this, 'LOAD_QUEUE');
-    this.saveQueueEl.onclick = this.#sendEvent.bind(this, 'SAVE_QUEUE');
+    this.formatSelectEl.onchange = this.#notify.bind(this, 'CHANGE_FORMAT');
+    this.selectPathEl.onclick = this.#notify.bind(this, 'SELECT_PATH');
+    this.loadQueueEl.onclick = this.#notify.bind(this, 'LOAD_QUEUE');
+    this.saveQueueEl.onclick = this.#notify.bind(this, 'SAVE_QUEUE');
   }
 
-  #sendEvent(type) {
-    for (const callback of this.subscribers) {
-      callback(type);
-    }
+  #notify(type) {
+    this.subscribers.forEach((subscriber) => subscriber(type));
   }
 
   subscribe(callback) {
     this.subscribers.push(callback);
+  }
+
+  unsubscribe(callback) {
+    this.subscribers = this.subscribers.filter((subscriber) => subscriber !== callback);
   }
 }

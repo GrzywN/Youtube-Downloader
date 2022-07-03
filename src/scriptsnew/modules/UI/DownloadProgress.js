@@ -1,4 +1,4 @@
-export default class DownloadingProgress {
+export default class DownloadProgress {
   registerProgress(id, stream) {
     const progressBars = document.querySelectorAll(`[data-progress-id="${id}"]`);
 

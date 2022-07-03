@@ -1,15 +1,17 @@
-import SearchUI from './modules/SearchUI.js';
-import SearchEngine from './modules/SearchEngine.js';
-import ListItemFactory from './modules/ListItemFactory.js';
-import ResultsList from './modules/ResultsList.js';
-import ResultsUI from './modules/ResultsUI.js';
-import QueueList from './modules/QueueList.js';
-import QueueUI from './modules/QueueUI.js';
-import Downloader from './modules/Downloader.js';
-import GlobalButtonsUI from './modules/GlobalButtonsUI.js';
-import OptionsUI from './modules/OptionsUI.js';
-import DownloadingProgress from './modules/DownloadingProgress.js';
-import QueueLoader from './modules/QueueLoader.js';
+import SearchUI from './modules/UI/SearchUI.js';
+import ResultsUI from './modules/UI/ResultsUI.js';
+import QueueUI from './modules/UI/QueueUI.js';
+import GlobalButtonsUI from './modules/UI/GlobalButtonsUI.js';
+import OptionsUI from './modules/UI/OptionsUI.js';
+import DownloadProgress from './modules/UI/DownloadProgress.js';
+
+import ListItemFactory from './modules/Data/ListItemFactory.js';
+import ResultsList from './modules/Data/ResultsList.js';
+import QueueList from './modules/Data/QueueList.js';
+
+import SearchEngine from './modules/Functionality/SearchEngine.js';
+import Downloader from './modules/Functionality/Downloader.js';
+import QueueLoader from './modules/Functionality/QueueLoader.js';
 
 const searchUI = new SearchUI('#search-input', '#search-button');
 const searchEngine = new SearchEngine();
@@ -30,14 +32,14 @@ const optionsUI = new OptionsUI({
   loadQueue: '#load-queue',
   saveQueue: '#save-queue',
 });
-const progress = new DownloadingProgress();
+const progress = new DownloadProgress();
 const queueLoader = new QueueLoader();
 
 searchUI.subscribe((value) => handleSearchEvents(value));
 resultsUI.subscribe((id, type) => handleResultsEvents(id, type));
 queueUI.subscribe((id, type) => handleQueueEvents(id, type));
 globalButtonsUI.subscribe((type) => handleGlobalButtonsEvents(type));
-optionsUI.subscribe((option, type) => handleOptionsEvents(option, type));
+optionsUI.subscribe((type) => handleOptionsEvents(type));
 downloader.subscribe((id, stream) => handleDownloadEvents(id, stream));
 
 const handleSearchEvents = async (value) => {

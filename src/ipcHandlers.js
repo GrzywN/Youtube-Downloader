@@ -15,6 +15,7 @@ function loadQueue(mainWindow) {
     try {
       const result = await dialog.showOpenDialog(mainWindow, {
         properties: ['openFile'],
+        defaultPath: './queues',
       });
       const fileContents = readFileSync(result.filePaths[0], 'utf-8');
       event.returnValue = JSON.parse(fileContents);
@@ -28,6 +29,7 @@ function saveQueue(mainWindow) {
   ipcMain.on('saveQueue', async (event, args) => {
     const result = await dialog.showSaveDialog(mainWindow, {
       filters: [{ name: '', extensions: ['json'] }],
+      defaultPath: './queues',
     });
     if (result.filePath) {
       const json = JSON.stringify(args);

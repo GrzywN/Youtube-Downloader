@@ -37,6 +37,10 @@ progress[value='100']::after {
   content: 'Downloaded successfully';
 }
 
+img {
+  image-rendering: optimizeSpeed;
+}
+
 :focus-visible {
   border: none !important;
   outline: 0.25rem dashed #eee !important;
@@ -77,6 +81,11 @@ progress {
   user-select: none;
 }
 
+.delete--no-icon::before,
+.delete--no-icon::after {
+  display: none;
+}
+
 #search-results:empty + .list-icon-container,
 #queue-list:empty + .list-icon-container {
   display: flex;
@@ -94,7 +103,8 @@ progress {
   -webkit-app-region: drag;
   width: 100%;
 }
-
+#minimize-app,
+#maximize-app,
 #close-app {
   -webkit-app-region: no-drag;
 }

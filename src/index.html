@@ -9,10 +9,18 @@
     <link rel="stylesheet" href="./styles/styles.css" />
   </head>
   <body class="is-flex is-flex-direction-column is-justify-content-space-between">
-    <!-- <div class="message-header has-background-black-ter is-radiusless" id="title-bar">
-      <p class="has-text-light mx-auto has-text-weight-bold">Youtube Downloader</p>
-      <button class="delete" aria-label="delete" id="close-app" tabindex="-1"></button>
-    </div> -->
+    <div class="message-header has-background-black-ter is-radiusless" id="title-bar">
+      <p class="has-text-light mr-auto has-text-weight-bold">Youtube Downloader</p>
+      <div>
+        <button class="delete delete--no-icon" id="minimize-app" tabindex="-1">
+          <img src="./assets/minimize.svg" alt="" width="20" height="20" />
+        </button>
+        <button class="delete delete--no-icon" id="maximize-app" tabindex="-1">
+          <img src="./assets/maximize.svg" alt="" width="20" height="20" />
+        </button>
+        <button class="delete" id="close-app" tabindex="-1"></button>
+      </div>
+    </div>
     <div class="columns is-flex-grow-1 is-flex-shrink-1">
       <div class="column p-5 has-background-grey-darker">
         <div class="field">
@@ -119,7 +127,6 @@
         </div>
       </div>
     </footer>
-    <!-- <script src="./scripts/App.js" type="module"></script> -->
-    <script src="./scriptsnew/App.js" type="module"></script>
+    <script src="./scripts/App.js" type="module"></script>
   </body>
 </html>

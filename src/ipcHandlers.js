@@ -49,9 +49,23 @@ function getAppPath(mainWindow, app) {
   });
 }
 
+function minimize(mainWindow) {
+  ipcMain.on('minimize', () => {
+    mainWindow.isMinimized() ? mainWindow.restore() : mainWindow.minimize();
+  });
+}
+
+function maximize(mainWindow) {
+  ipcMain.on('maximize', () => {
+    mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
+  });
+}
+
 module.exports = {
   getAppPath,
   loadQueue,
   saveQueue,
   selectPath,
+  minimize,
+  maximize,
 };

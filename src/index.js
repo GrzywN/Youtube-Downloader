@@ -2,13 +2,22 @@ const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const open = require('open');
 
-const { selectPath, loadQueue, saveQueue, getAppPath } = require('./ipcHandlers.js');
+const {
+  selectPath,
+  loadQueue,
+  saveQueue,
+  getAppPath,
+  minimize,
+  maximize,
+} = require('./ipcHandlers.js');
 
-function handleIPC(mainWindow, app) {
-  getAppPath(mainWindow, app);
-  selectPath(mainWindow);
-  loadQueue(mainWindow);
-  saveQueue(mainWindow);
+function handleIPC(window, app) {
+  getAppPath(window, app);
+  selectPath(window);
+  loadQueue(window);
+  saveQueue(window);
+  minimize(window);
+  maximize(window);
 }
 
 if (require('electron-squirrel-startup')) {
@@ -20,14 +29,14 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1366,
     height: 768,
-    // minWidth: 1366,
-    // minHeight: 768,
+    minWidth: 1366,
+    minHeight: 768,
 
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
     },
-    // frame: false,
+    frame: false,
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));

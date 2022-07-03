@@ -24,6 +24,10 @@ export default class QueueList {
     return this.list;
   }
 
+  getValueList() {
+    return Object.values(this.list);
+  }
+
   static #getCopiedObject(object) {
     return JSON.parse(JSON.stringify(object));
   }

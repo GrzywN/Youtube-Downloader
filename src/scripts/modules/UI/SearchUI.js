@@ -14,7 +14,7 @@ export default class SearchUI {
   }
 
   getInputValue() {
-    const value = this.inputElement.value;
+    const { value } = this.inputElement;
     if (value <= 0) return;
 
     this.#notify(value);

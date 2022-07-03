@@ -12,3 +12,4 @@ Odwrotny kolor kart, scrolla
 // TODO: dodać subscribe do progressu
 
 add titlebar and progress bars
+posortować wyświetleniami results

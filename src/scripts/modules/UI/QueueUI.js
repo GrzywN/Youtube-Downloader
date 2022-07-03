@@ -6,14 +6,14 @@ export default class QueueUI {
 
   renderItem(item) {
     if (this.containerEl == null) throw new Error('QueueUI: Container element not found');
-    if (!this.#areArgumentsValid(item)) return;
+    if (!QueueUI.#areArgumentsValid(item)) return;
 
-    const element = this.#createElement(item);
+    const element = QueueUI.#createElement(item);
     this.#addListeners(element);
     this.#appendElement(element);
   }
 
-  #areArgumentsValid(item) {
+  static #areArgumentsValid(item) {
     if (
       item.thumbnailURL != null &&
       item.title != null &&
@@ -25,16 +25,16 @@ export default class QueueUI {
     return false;
   }
 
-  #createElement(item) {
+  static #createElement(item) {
     const element = document.createElement('div');
     element.dataset.id = item.id;
     element.classList.add('block');
-    const html = this.#getHTMLfromTemplate(item);
+    const html = QueueUI.#getHTMLfromTemplate(item);
     element.innerHTML = html;
     return element;
   }
 
-  #getHTMLfromTemplate(item) {
+  static #getHTMLfromTemplate(item) {
     return `
       <div class="media box has-background-grey-darker is-flex is-align-items-center">
         <figure class="media-left image thumbnail">

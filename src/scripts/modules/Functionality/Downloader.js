@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 const ytdl = require('ytdl-core');
 const ffmpeg = require('fluent-ffmpeg');
 
@@ -10,13 +12,13 @@ const AUDIO_STR = 'Audio only';
 export default class Downloader {
   constructor(formatSelectSelector) {
     this.formatSelectElement = document.querySelector(formatSelectSelector);
-    this.currentPath = this.#getDefaultPath();
+    this.currentPath = Downloader.#getDefaultPath();
     this.#setIpcListener();
     this.selectedFormat = VIDEO_AUDIO_STR;
     this.subscribers = [];
   }
 
-  #getDefaultPath() {
+  static #getDefaultPath() {
     return `${ipcRenderer.sendSync('getAppPath')}/downloads`;
   }
 
@@ -30,7 +32,7 @@ export default class Downloader {
     this.selectedFormat = this.formatSelectElement.value;
   }
 
-  setPath() {
+  static setPath() {
     ipcRenderer.send('selectDirectory');
   }
 
@@ -49,11 +51,10 @@ export default class Downloader {
       filter: (format) => format.container === 'mp4',
     });
 
-    // There might be bugs in this function with title name edge cases.
     const filename = item.title.replaceAll('\\', '').replaceAll('/', '');
     stream.pipe(createWriteStream(`${this.currentPath}/${filename}.mp4`));
 
-    const id = item.id;
+    const { id } = item;
     this.#notify(id, stream);
   }
 
@@ -65,7 +66,7 @@ export default class Downloader {
     const filename = item.title.replaceAll('\\', '').replaceAll('/', '');
     ffmpeg(stream).audioBitrate(320).save(`${this.currentPath}/${filename}.mp3`);
 
-    const id = item.id;
+    const { id } = item;
     this.#notify(id, stream);
   }
 

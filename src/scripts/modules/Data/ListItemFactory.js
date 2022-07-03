@@ -1,3 +1,5 @@
+/* eslint-disable import/extensions */
+
 import ListItem from './ListItem.js';
 
 export default class ListItemFactory {
@@ -5,10 +7,10 @@ export default class ListItemFactory {
     delete this.itemList;
     this.itemList = {};
 
-    for (const result of results.items) {
+    results.items.forEach((result) => {
       const item = new ListItem(result);
       if (item.id != null) this.itemList[item.id] = item;
-    }
+    });
   }
 
   getItems() {

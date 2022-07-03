@@ -9,11 +9,21 @@ export default class ResultsList {
     return this.list;
   }
 
+  getValueList() {
+    return Object.values(this.list);
+  }
+
   getItemFromID(id) {
-    for (const item in this.list) {
-      if (this.list[item].id == id) return this.list[item];
-    }
-    return null;
+    const listArray = Object.values(this.list);
+    let itemToReturn = null;
+
+    listArray.forEach((item) => {
+      if (item.id === id) {
+        itemToReturn = item;
+      }
+    });
+
+    return itemToReturn;
   }
 
   static #getCopiedObject(object) {

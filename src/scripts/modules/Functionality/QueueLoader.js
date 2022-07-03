@@ -5,8 +5,12 @@ export default class QueueLoader {
     this.loadedQueue = {};
   }
 
-  get() {
+  getList() {
     return this.loadedQueue;
+  }
+
+  getValueList() {
+    return Object.values(this.loadedQueue);
   }
 
   save(currentQueue) {

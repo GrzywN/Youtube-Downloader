@@ -13,9 +13,8 @@ export default class SearchEngine {
 
     if (isPlaylist) {
       return this.searchPlaylist(this.value);
-    } else {
-      return this.searchResults(this.value);
     }
+    return this.searchResults(this.value);
   }
 
   searchPlaylist() {

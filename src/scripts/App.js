@@ -1,12 +1,12 @@
-const { ipcRenderer } = require('electron');
-
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/extensions */
 import SearchUI from './modules/UI/SearchUI.js';
 import ResultsUI from './modules/UI/ResultsUI.js';
 import QueueUI from './modules/UI/QueueUI.js';
 import GlobalButtonsUI from './modules/UI/GlobalButtonsUI.js';
 import OptionsUI from './modules/UI/OptionsUI.js';
-import DownloadProgress from './modules/UI/DownloadProgress.js';
 import TitleBarUI from './modules/UI/TitleBarUI.js';
+import DownloadProgress from './modules/UI/DownloadProgress.js';
 
 import ListItemFactory from './modules/Data/ListItemFactory.js';
 import ResultsList from './modules/Data/ResultsList.js';
@@ -15,6 +15,8 @@ import QueueList from './modules/Data/QueueList.js';
 import SearchEngine from './modules/Functionality/SearchEngine.js';
 import Downloader from './modules/Functionality/Downloader.js';
 import QueueLoader from './modules/Functionality/QueueLoader.js';
+
+const { ipcRenderer } = require('electron');
 
 const searchUI = new SearchUI('#search-input', '#search-button');
 const searchEngine = new SearchEngine();
@@ -35,21 +37,12 @@ const optionsUI = new OptionsUI({
   loadQueue: '#load-queue',
   saveQueue: '#save-queue',
 });
-const progress = new DownloadProgress();
 const queueLoader = new QueueLoader();
 const titleBar = new TitleBarUI({
   minimize: '#minimize-app',
   maximize: '#maximize-app',
   close: '#close-app',
 });
-
-searchUI.subscribe((value) => onSearch(value));
-resultsUI.subscribe((id, type) => onResultEvent(id, type));
-queueUI.subscribe((id, type) => onQueueEvent(id, type));
-globalButtonsUI.subscribe((type) => onGlobalButtonEvent(type));
-optionsUI.subscribe((type) => onOptionEvent(type));
-downloader.subscribe((id, stream) => onDownload(id, stream));
-titleBar.subscribe((type) => onTitleBarEvent(type));
 
 async function onSearch(value) {
   searchEngine.setValue(value);
@@ -70,17 +63,20 @@ function onResultEvent(id, type) {
       downloader.download(item);
       break;
     }
+
     case 'ADD_TO_QUEUE': {
       const isOnQueue = queueList.isOnQueue(item);
 
-      if (isOnQueue) {
-        console.log('Already on queue');
-      } else {
+      if (!isOnQueue) {
         queueList.addItem(item);
         queueUI.renderItem(item);
       }
 
       break;
+    }
+
+    default: {
+      throw new Error('App.js: Default case in onResultEvent (id, type)', id, type);
     }
   }
 }
@@ -92,43 +88,50 @@ function onQueueEvent(id, type) {
       downloader.download(item);
       break;
     }
+
     case 'REMOVE_FROM_QUEUE': {
       queueUI.removeItem(item);
       queueList.removeItem(item);
       break;
     }
+
+    default: {
+      throw new Error('App.js: Default case in onQueueEvent (id, type)', id, type);
+    }
   }
 }
 
 function onGlobalButtonEvent(type) {
-  const queue = queueList.getList();
-  const results = resultsList.getList();
+  const queueArray = queueList.getValueList();
+  const resultsArray = resultsList.getValueList();
 
   switch (type) {
     case 'DOWNLOAD_ALL': {
-      for (const item in queue) {
-        downloader.download(queue[item]);
-      }
+      queueArray.forEach((item) => downloader.download(item));
       break;
     }
+
     case 'ADD_RESULTS_TO_QUEUE': {
-      for (const item in results) {
-        const isOnQueue = queueList.isOnQueue(results[item]);
-        if (isOnQueue) {
-          console.log('Already on queue');
-        } else {
-          queueList.addItem(results[item]);
-          queueUI.renderItem(results[item]);
+      resultsArray.forEach((item) => {
+        const isOnQueue = queueList.isOnQueue(item);
+        if (!isOnQueue) {
+          queueList.addItem(item);
+          queueUI.renderItem(item);
         }
-      }
+      });
       break;
     }
+
     case 'CLEAR_THE_QUEUE': {
-      for (const item in queue) {
-        queueUI.removeItem(queue[item]);
-        queueList.removeItem(queue[item]);
-      }
+      queueArray.forEach((item) => {
+        queueUI.removeItem(item);
+        queueList.removeItem(item);
+      });
       break;
+    }
+
+    default: {
+      throw new Error('App.js: Default case in onGlobalButtonEvent (type)', type);
     }
   }
 }
@@ -139,41 +142,44 @@ function onOptionEvent(type) {
       downloader.updateSelectedFormat();
       break;
     }
+
     case 'SELECT_PATH': {
-      downloader.setPath();
+      Downloader.setPath();
       break;
     }
+
     case 'LOAD_QUEUE': {
       queueLoader.load();
-      const loadedQueue = queueLoader.get();
+      const loadedQueueArray = queueLoader.getValueList();
 
-      if (Object.keys(loadedQueue).length === 0) return;
+      if (loadedQueueArray.length === 0) return;
 
-      const queue = queueList.getList();
+      const queueArray = queueList.getValueList();
 
-      for (const item in queue) {
-        queueUI.removeItem(queue[item]);
-        queueList.removeItem(queue[item]);
-      }
+      queueArray.forEach((item) => {
+        queueUI.removeItem(item);
+        queueList.removeItem(item);
+      });
 
-      for (const item in loadedQueue) {
-        queueList.addItem(loadedQueue[item]);
-        queueUI.renderItem(loadedQueue[item]);
-      }
+      loadedQueueArray.forEach((item) => {
+        queueList.addItem(item);
+        queueUI.renderItem(item);
+      });
 
       break;
     }
+
     case 'SAVE_QUEUE': {
       const queue = queueList.getList();
       queueLoader.save(queue);
 
       break;
     }
-  }
-}
 
-function onDownload(id, stream) {
-  progress.registerProgress(id, stream);
+    default: {
+      throw new Error('App.js: Default case in onTitleBarEvent (type)', type);
+    }
+  }
 }
 
 function onTitleBarEvent(type) {
@@ -182,13 +188,31 @@ function onTitleBarEvent(type) {
       window.close();
       break;
     }
+
     case 'MINIMIZE': {
       ipcRenderer.send('minimize');
       break;
     }
+
     case 'MAXIMIZE': {
       ipcRenderer.send('maximize');
       break;
     }
+
+    default: {
+      throw new Error('App.js: Default case in onTitleBarEvent (type)', type);
+    }
   }
 }
+
+function onDownload(id, stream) {
+  DownloadProgress.registerProgress(id, stream);
+}
+
+searchUI.subscribe((value) => onSearch(value));
+resultsUI.subscribe((id, type) => onResultEvent(id, type));
+queueUI.subscribe((id, type) => onQueueEvent(id, type));
+globalButtonsUI.subscribe((type) => onGlobalButtonEvent(type));
+optionsUI.subscribe((type) => onOptionEvent(type));
+titleBar.subscribe((type) => onTitleBarEvent(type));
+downloader.subscribe((id, stream) => onDownload(id, stream));

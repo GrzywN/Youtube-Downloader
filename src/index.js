@@ -1,3 +1,7 @@
+/* eslint-disable global-require */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/extensions */
+
 const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const open = require('open');
@@ -11,7 +15,7 @@ const {
   maximize,
 } = require('./ipcHandlers.js');
 
-function handleIPC(window, app) {
+function handleIPC(window) {
   getAppPath(window, app);
   selectPath(window);
   loadQueue(window);
@@ -21,7 +25,6 @@ function handleIPC(window, app) {
 }
 
 if (require('electron-squirrel-startup')) {
-  // eslint-disable-line global-require
   app.quit();
 }
 
@@ -41,7 +44,7 @@ const createWindow = () => {
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
-  mainWindow.webContents.on('new-window', function (event, url) {
+  mainWindow.webContents.on('new-window', (event, url) => {
     event.preventDefault();
     open(url);
   });
@@ -67,4 +70,4 @@ app.on('activate', () => {
   }
 });
 
-process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true';

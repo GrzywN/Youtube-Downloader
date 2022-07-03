@@ -1,3 +1,7 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-return-assign */
+
 export default class ResultsUI {
   constructor(containerSelector) {
     this.containerElement = document.querySelector(containerSelector);
@@ -14,20 +18,22 @@ export default class ResultsUI {
 
     this.#removePrevResults();
 
-    for (const result in this.resultsList) {
-      this.#renderResult(this.resultsList[result]);
-    }
+    const resultsArray = Object.values(this.resultsList);
+
+    resultsArray.forEach((result) => {
+      this.#renderResult(result);
+    });
   }
 
   #renderResult(result) {
-    if (!this.#areArgumentsValid(result)) return;
-    const element = this.#createElement(result);
+    if (!ResultsUI.#areArgumentsValid(result)) return;
+    const element = ResultsUI.#createElement(result);
 
     this.#addListeners(element);
     this.#appendElement(element);
   }
 
-  #areArgumentsValid(result) {
+  static #areArgumentsValid(result) {
     if (
       result.thumbnailURL != null &&
       result.title != null &&
@@ -39,7 +45,7 @@ export default class ResultsUI {
     return false;
   }
 
-  #createElement(result) {
+  static #createElement(result) {
     const element = document.createElement('div');
     element.dataset.id = result.id;
     element.classList.add('block');

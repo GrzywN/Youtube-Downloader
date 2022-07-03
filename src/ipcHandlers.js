@@ -1,8 +1,11 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable import/no-extraneous-dependencies */
+
 const { dialog, ipcMain } = require('electron');
 const { readFileSync, writeFileSync } = require('fs');
 
 function selectPath(mainWindow) {
-  ipcMain.on('selectDirectory', async (event, args) => {
+  ipcMain.on('selectDirectory', async (event) => {
     const result = await dialog.showOpenDialog(mainWindow, {
       properties: ['openDirectory'],
     });
@@ -11,7 +14,7 @@ function selectPath(mainWindow) {
 }
 
 function loadQueue(mainWindow) {
-  ipcMain.on('loadQueue', async (event, args) => {
+  ipcMain.on('loadQueue', async (event) => {
     try {
       const result = await dialog.showOpenDialog(mainWindow, {
         properties: ['openFile'],
@@ -44,20 +47,28 @@ function saveQueue(mainWindow) {
 }
 
 function getAppPath(mainWindow, app) {
-  ipcMain.on('getAppPath', (event, args) => {
+  ipcMain.on('getAppPath', (event) => {
     event.returnValue = app.getAppPath();
   });
 }
 
 function minimize(mainWindow) {
   ipcMain.on('minimize', () => {
-    mainWindow.isMinimized() ? mainWindow.restore() : mainWindow.minimize();
+    if (mainWindow.isMinimized()) {
+      mainWindow.restore();
+    } else {
+      mainWindow.minimize();
+    }
   });
 }
 
 function maximize(mainWindow) {
   ipcMain.on('maximize', () => {
-    mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
+    if (mainWindow.isMaximized()) {
+      mainWindow.unmaximize();
+    } else {
+      mainWindow.maximize();
+    }
   });
 }
 

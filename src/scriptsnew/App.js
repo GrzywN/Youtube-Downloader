@@ -9,7 +9,7 @@ import Downloader from './modules/Downloader.js';
 import GlobalButtonsUI from './modules/GlobalButtonsUI.js';
 import OptionsUI from './modules/OptionsUI.js';
 import DownloadingProgress from './modules/DownloadingProgress.js';
-// import QueueLoader from './modules/QueueLoader.js';
+import QueueLoader from './modules/QueueLoader.js';
 
 const searchUI = new SearchUI('#search-input', '#search-button');
 const searchEngine = new SearchEngine();
@@ -31,7 +31,7 @@ const optionsUI = new OptionsUI({
   saveQueue: '#save-queue',
 });
 const progress = new DownloadingProgress();
-// const queueLoader = new QueueLoader();
+const queueLoader = new QueueLoader();
 
 searchUI.subscribe((value) => handleSearchEvents(value));
 resultsUI.subscribe((id, type) => handleResultsEvents(id, type));
@@ -133,13 +133,29 @@ const handleOptionsEvents = (type) => {
       break;
     }
     case 'LOAD_QUEUE': {
-      console.log('LOAD_QUEUE');
-      // queueLoader.load();
+      queueLoader.load();
+      const loadedQueue = queueLoader.get();
+
+      if (Object.keys(loadedQueue).length === 0) return;
+
+      const queue = queueList.getList();
+
+      for (const item in queue) {
+        queueUI.removeItem(queue[item]);
+        queueList.removeItem(queue[item]);
+      }
+
+      for (const item in loadedQueue) {
+        queueList.addItem(loadedQueue[item]);
+        queueUI.renderItem(loadedQueue[item]);
+      }
+
       break;
     }
     case 'SAVE_QUEUE': {
-      console.log('SAVE_QUEUE');
-      // queueLoader.save();
+      const queue = queueList.getList();
+      queueLoader.save(queue);
+
       break;
     }
   }

@@ -1,6 +1,15 @@
-const { app, BrowserWindow, dialog, ipcMain, Menu } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const open = require('open');
+
+const { selectPath, loadQueue, saveQueue, getAppPath } = require('./ipcHandlers.js');
+
+function handleIPC(mainWindow, app) {
+  getAppPath(mainWindow, app);
+  selectPath(mainWindow);
+  loadQueue(mainWindow);
+  saveQueue(mainWindow);
+}
 
 if (require('electron-squirrel-startup')) {
   // eslint-disable-line global-require
@@ -30,18 +39,9 @@ const createWindow = () => {
 
   mainWindow.webContents.openDevTools();
 
-  ipcMain.on('selectDirectory', async (event, args) => {
-    const result = await dialog.showOpenDialog(mainWindow, {
-      properties: ['openDirectory'],
-    });
-    event.sender.send('pathChange', result.filePaths[0]);
-  });
-
-  ipcMain.on('getAppPath', (event, args) => {
-    event.returnValue = app.getAppPath();
-  });
-
   Menu.setApplicationMenu(null);
+
+  handleIPC(mainWindow, app);
 };
 
 app.on('ready', createWindow);

@@ -55,10 +55,10 @@ export default class ResultsUI {
 
   static #areArgumentsValid(result) {
     if (
-      result.thumbnailURL != null &&
-      result.title != null &&
-      result.duration != null &&
-      result.id != null
+      result.thumbnailURL != null
+      && result.title != null
+      && result.duration != null
+      && result.id != null
     ) {
       return true;
     }

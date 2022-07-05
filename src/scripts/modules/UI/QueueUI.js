@@ -31,10 +31,10 @@ export default class QueueUI {
 
   static #areArgumentsValid(item) {
     if (
-      item.thumbnailURL != null &&
-      item.title != null &&
-      item.duration != null &&
-      item.id != null
+      item.thumbnailURL != null
+      && item.title != null
+      && item.duration != null
+      && item.id != null
     ) {
       return true;
     }

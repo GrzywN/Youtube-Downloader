@@ -1,5 +1,7 @@
 export default class OptionsUI {
-  constructor({ formatSelect, selectPath, loadQueue, saveQueue }) {
+  constructor({
+    formatSelect, selectPath, loadQueue, saveQueue,
+  }) {
     this.formatSelect = document.querySelector(formatSelect);
     this.selectPath = document.querySelector(selectPath);
     this.loadQueue = document.querySelector(loadQueue);
@@ -31,10 +33,10 @@ export default class OptionsUI {
     }
 
     if (
-      this.formatSelect == null ||
-      this.selectPath == null ||
-      this.loadQueue == null ||
-      this.saveQueue == null
+      this.formatSelect == null
+      || this.selectPath == null
+      || this.loadQueue == null
+      || this.saveQueue == null
     ) {
       const errorString = `${this.constructor.name}: ${errorArray.join(', ')}`;
 

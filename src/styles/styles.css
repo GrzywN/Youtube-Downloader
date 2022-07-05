@@ -122,3 +122,11 @@ progress {
   border-radius: 100vmax;
   background-color: hsl(0, 0%, 71%);
 }
+
+#notification-field {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  text-align: center;
+}

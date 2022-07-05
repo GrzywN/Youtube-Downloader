@@ -1,21 +1,43 @@
 export default class SearchUI {
   constructor(inputSelector, buttonSelector) {
-    this.inputElement = document.querySelector(inputSelector);
-    this.buttonElement = document.querySelector(buttonSelector);
+    this.input = document.querySelector(inputSelector);
+    this.button = document.querySelector(buttonSelector);
+
+    this.validateSelectors();
+
     this.subscribers = [];
     this.setListeners();
   }
 
+  validateSelectors() {
+    const errorArray = [];
+
+    if (this.input == null) {
+      errorArray.push('input element not found');
+    }
+
+    if (this.button == null) {
+      errorArray.push('button element not found');
+    }
+
+    if (this.input == null || this.button == null) {
+      const errorString = `${this.constructor.name}: ${errorArray.join(', ')}`;
+
+      globalThis.notificationUI.createError(errorString);
+      throw new Error(errorString);
+    }
+  }
+
   setListeners() {
-    this.buttonElement.addEventListener('click', this.getInputValue.bind(this));
-    this.inputElement.addEventListener('keydown', (e) => {
+    this.button.addEventListener('click', this.getInputValue.bind(this));
+    this.input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') this.getInputValue();
     });
   }
 
   getInputValue() {
-    const { value } = this.inputElement;
-    if (value <= 0) return;
+    const { value } = this.input;
+    if (value.length === 0) return;
 
     this.#notify(value);
   }

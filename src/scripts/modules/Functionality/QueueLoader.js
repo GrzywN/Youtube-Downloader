@@ -20,7 +20,7 @@ export default class QueueLoader {
   load() {
     this.#clearPrevious();
 
-    let queue = this.#sendDialog();
+    const queue = QueueLoader.#sendDialog();
     if (queue instanceof Error) return;
 
     this.#set(queue);
@@ -31,7 +31,7 @@ export default class QueueLoader {
     this.loadedQueue = {};
   }
 
-  #sendDialog() {
+  static #sendDialog() {
     return ipcRenderer.sendSync('loadQueue');
   }
 
@@ -40,7 +40,7 @@ export default class QueueLoader {
   }
 
   #filter(parsedJson) {
-    let filteredQueue = {};
+    const filteredQueue = {};
 
     for (const key in parsedJson) {
       if (this.#verifyItem(parsedJson[key])) {

@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="./styles/fonts.css" />
     <link rel="stylesheet" href="./styles/styles.css" />
   </head>
-  <body class="is-flex is-flex-direction-column is-justify-content-space-between">
-    <div class="message-header has-background-black-ter is-radiusless" id="title-bar">
+  <body>
+    <div id="title-bar" class="message-header has-background-black-ter is-radiusless">
       <div class="is-flex is-align-items-center">
         <img src="./assets/icon.png" alt="Logo" width="40" />
         <p class="has-text-light has-text-weight-bold ml-4">Youtube Downloader</p>
@@ -24,112 +24,126 @@
         <button class="delete" id="close-app" tabindex="-1"></button>
       </div>
     </div>
-    <div class="columns is-flex-grow-1 is-flex-shrink-1">
-      <div class="column p-5 has-background-grey-darker">
-        <div class="field">
-          <label class="label has-text-light" for="search-input">Search (or enter URL)</label>
-          <div class="control">
-            <div class="media">
-              <input
-                class="input has-text-light has-background-dark"
-                type="text"
-                id="search-input"
-              />
-              <button class="button has-background-dark media-right" id="search-button">
-                <span class="icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                    <path
-                      fill="#fff"
-                      d="M500.3 443.7l-119.7-119.7c27.22-40.41 40.65-90.9 33.46-144.7C401.8 87.79 326.8 13.32 235.2 1.723C99.01-15.51-15.51 99.01 1.724 235.2c11.6 91.64 86.08 166.7 177.6 178.9c53.8 7.189 104.3-6.236 144.7-33.46l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7zM79.1 208c0-70.58 57.42-128 128-128s128 57.42 128 128c0 70.58-57.42 128-128 128S79.1 278.6 79.1 208z"
-                    />
-                  </svg>
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
-        <section class="section p-2 is-relative">
-          <h2 class="title has-text-grey-dark">Results</h2>
-          <div id="search-results"></div>
-          <div class="list-icon-container">
-            <svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-              <path
-                fill="#fff"
-                d="M500.3 443.7l-119.7-119.7c27.22-40.41 40.65-90.9 33.46-144.7C401.8 87.79 326.8 13.32 235.2 1.723C99.01-15.51-15.51 99.01 1.724 235.2c11.6 91.64 86.08 166.7 177.6 178.9c53.8 7.189 104.3-6.236 144.7-33.46l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7zM79.1 208c0-70.58 57.42-128 128-128s128 57.42 128 128c0 70.58-57.42 128-128 128S79.1 278.6 79.1 208z"
-              />
-            </svg>
-            <p class="subtitle has-text-light has-text-centered">
-              You can search for videos by
-              <span class="has-text-weight-bold">keywords</span>,
-              <span class="has-text-weight-bold">URLs</span> or
-              <span class="has-text-weight-bold">playlist URL</span>.
-            </p>
-          </div>
-        </section>
-      </div>
-      <div class="column p-5 has-background-grey-dark">
-        <div class="field">
-          <label class="label has-text-light" for="format-select"
-            >Select options which you want</label
-          >
-          <div class="control">
-            <div class="select is-dark is-rounded">
-              <select id="format-select">
-                <option>Video & Audio</option>
-                <option>Audio only</option>
-              </select>
-            </div>
-            <button class="button is-rounded is-warning" id="select-path">Select path</button>
-            <button class="button is-rounded is-link" id="load-queue">Load queue</button>
-            <button class="button is-rounded is-info" id="save-queue">Save queue</button>
-          </div>
-        </div>
-        <section class="section p-2 is-relative">
-          <h2 class="title">Queue</h2>
-          <div id="queue-list"></div>
-          <div class="list-icon-container">
-            <svg
-              class="list-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              width="128px"
-              height="128px"
-              viewBox="0 0 128 128"
-              version="1.1"
-            >
-              <g id="surface1">
-                <path
-                  style="stroke: none; fill-rule: evenodd; fill: #fff; fill-opacity: 1"
-                  d="M 3.167969 20.402344 C -0.988281 22.585938 -1.027344 29.832031 3.109375 31.878906 C 4.488281 32.558594 76.671875 32.96875 78.960938 32.308594 C 83.984375 30.859375 84.714844 22.6875 80.023438 20.425781 L 78.710938 19.792969 L 41.492188 19.808594 C 5.167969 19.820312 4.246094 19.835938 3.167969 20.402344 M 5.167969 51.507812 C 5.003906 51.5625 4.503906 51.6875 4.054688 51.789062 C -1.351562 52.972656 -1.230469 62.410156 4.210938 64.019531 C 6.136719 64.589844 76.679688 64.703125 78.75 64.136719 C 84.675781 62.527344 84.675781 53.304688 78.75 51.691406 C 77.664062 51.394531 6.046875 51.21875 5.167969 51.507812 M 98.882812 58.523438 C 96.085938 59.992188 95.65625 61.550781 95.652344 70.199219 L 95.652344 76.976562 L 88.3125 76.976562 C 81.570312 76.976562 80.875 77.023438 79.804688 77.566406 C 76.585938 79.203125 75.558594 83.835938 77.675781 87.160156 C 79.15625 89.480469 79.71875 89.617188 88.230469 89.722656 L 95.613281 89.808594 L 95.707031 97.191406 L 95.800781 104.570312 L 96.699219 106.011719 C 97.945312 108.011719 99.351562 108.691406 102.230469 108.691406 C 105.109375 108.691406 106.515625 108.011719 107.765625 106.011719 L 108.660156 104.570312 L 108.753906 97.191406 L 108.847656 89.808594 L 116.234375 89.722656 C 125.628906 89.609375 127.164062 88.914062 127.832031 84.484375 C 128.722656 78.582031 126.230469 76.992188 116.066406 76.980469 L 108.8125 76.976562 L 108.808594 70.199219 C 108.808594 62.964844 108.628906 61.664062 107.394531 60.042969 C 105.828125 57.976562 101.417969 57.1875 98.882812 58.523438 M 3.972656 83.625 C 2.316406 84.269531 1.753906 84.722656 0.992188 86.011719 C -1.007812 89.414062 0.136719 94.015625 3.339844 95.464844 C 5.273438 96.339844 52.601562 96.34375 54.3125 95.46875 C 59.203125 92.972656 58.683594 84.960938 53.542969 83.539062 C 51.882812 83.082031 5.164062 83.160156 3.972656 83.625 "
+    <div id="app" class="is-flex is-flex-direction-column is-justify-content-space-between">
+      <div id="notification-field"></div>
+      <div class="columns is-flex-grow-1 is-flex-shrink-1">
+        <div class="column p-5 has-background-grey-darker">
+          <div class="field">
+            <label class="label has-text-light" for="search-input">Search (or enter URL)</label>
+            <div class="control">
+              <div class="media">
+                <input
+                  class="input has-text-light has-background-dark"
+                  type="text"
+                  id="search-input"
                 />
-              </g>
-            </svg>
-            <p class="subtitle has-text-light has-text-centered">
-              You can add videos by searching and clicking on the
-              <span class="has-text-weight-bold">Add to queue</span>
-              button.
-            </p>
+                <button class="button has-background-dark media-right" id="search-button">
+                  <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                      <path
+                        fill="#fff"
+                        d="M500.3 443.7l-119.7-119.7c27.22-40.41 40.65-90.9 33.46-144.7C401.8 87.79 326.8 13.32 235.2 1.723C99.01-15.51-15.51 99.01 1.724 235.2c11.6 91.64 86.08 166.7 177.6 178.9c53.8 7.189 104.3-6.236 144.7-33.46l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7zM79.1 208c0-70.58 57.42-128 128-128s128 57.42 128 128c0 70.58-57.42 128-128 128S79.1 278.6 79.1 208z"
+                      />
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
-        </section>
+          <section class="section p-2 is-relative">
+            <h2 class="title has-text-grey-dark">Results</h2>
+            <div id="search-results"></div>
+            <div class="list-icon-container">
+              <svg class="list-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path
+                  fill="#fff"
+                  d="M500.3 443.7l-119.7-119.7c27.22-40.41 40.65-90.9 33.46-144.7C401.8 87.79 326.8 13.32 235.2 1.723C99.01-15.51-15.51 99.01 1.724 235.2c11.6 91.64 86.08 166.7 177.6 178.9c53.8 7.189 104.3-6.236 144.7-33.46l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7zM79.1 208c0-70.58 57.42-128 128-128s128 57.42 128 128c0 70.58-57.42 128-128 128S79.1 278.6 79.1 208z"
+                />
+              </svg>
+              <p class="subtitle has-text-light has-text-centered">
+                You can search for videos by
+                <span class="has-text-weight-bold">keywords</span>,
+                <span class="has-text-weight-bold">URLs</span> or
+                <span class="has-text-weight-bold">playlist URL</span>.
+              </p>
+            </div>
+          </section>
+        </div>
+        <div class="column p-5 has-background-grey-dark">
+          <div class="field">
+            <label class="label has-text-light" for="format-select"
+              >Select options which you want</label
+            >
+            <div class="control">
+              <div class="select is-dark is-rounded">
+                <select id="format-select">
+                  <option>Video & Audio</option>
+                  <option>Audio only</option>
+                </select>
+              </div>
+              <button class="button is-rounded is-warning" id="select-path">Select path</button>
+              <button class="button is-rounded is-link" id="load-queue">Load queue</button>
+              <button class="button is-rounded is-info" id="save-queue">Save queue</button>
+            </div>
+          </div>
+          <section class="section p-2 is-relative">
+            <h2 class="title">Queue</h2>
+            <div id="queue-list"></div>
+            <div class="list-icon-container">
+              <svg
+                class="list-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                width="128px"
+                height="128px"
+                viewBox="0 0 128 128"
+                version="1.1"
+              >
+                <g id="surface1">
+                  <path
+                    style="stroke: none; fill-rule: evenodd; fill: #fff; fill-opacity: 1"
+                    d="M 3.167969 20.402344 C -0.988281 22.585938 -1.027344 29.832031 3.109375 31.878906 C 4.488281 32.558594 76.671875 32.96875 78.960938 32.308594 C 83.984375 30.859375 84.714844 22.6875 80.023438 20.425781 L 78.710938 19.792969 L 41.492188 19.808594 C 5.167969 19.820312 4.246094 19.835938 3.167969 20.402344 M 5.167969 51.507812 C 5.003906 51.5625 4.503906 51.6875 4.054688 51.789062 C -1.351562 52.972656 -1.230469 62.410156 4.210938 64.019531 C 6.136719 64.589844 76.679688 64.703125 78.75 64.136719 C 84.675781 62.527344 84.675781 53.304688 78.75 51.691406 C 77.664062 51.394531 6.046875 51.21875 5.167969 51.507812 M 98.882812 58.523438 C 96.085938 59.992188 95.65625 61.550781 95.652344 70.199219 L 95.652344 76.976562 L 88.3125 76.976562 C 81.570312 76.976562 80.875 77.023438 79.804688 77.566406 C 76.585938 79.203125 75.558594 83.835938 77.675781 87.160156 C 79.15625 89.480469 79.71875 89.617188 88.230469 89.722656 L 95.613281 89.808594 L 95.707031 97.191406 L 95.800781 104.570312 L 96.699219 106.011719 C 97.945312 108.011719 99.351562 108.691406 102.230469 108.691406 C 105.109375 108.691406 106.515625 108.011719 107.765625 106.011719 L 108.660156 104.570312 L 108.753906 97.191406 L 108.847656 89.808594 L 116.234375 89.722656 C 125.628906 89.609375 127.164062 88.914062 127.832031 84.484375 C 128.722656 78.582031 126.230469 76.992188 116.066406 76.980469 L 108.8125 76.976562 L 108.808594 70.199219 C 108.808594 62.964844 108.628906 61.664062 107.394531 60.042969 C 105.828125 57.976562 101.417969 57.1875 98.882812 58.523438 M 3.972656 83.625 C 2.316406 84.269531 1.753906 84.722656 0.992188 86.011719 C -1.007812 89.414062 0.136719 94.015625 3.339844 95.464844 C 5.273438 96.339844 52.601562 96.34375 54.3125 95.46875 C 59.203125 92.972656 58.683594 84.960938 53.542969 83.539062 C 51.882812 83.082031 5.164062 83.160156 3.972656 83.625 "
+                  />
+                </g>
+              </svg>
+              <p class="subtitle has-text-light has-text-centered">
+                You can add videos by searching and clicking on the
+                <span class="has-text-weight-bold">Add to queue</span>
+                button.
+              </p>
+            </div>
+          </section>
+        </div>
       </div>
+      <footer class="has-background-black-ter mx-auto pb-3">
+        <div class="columns">
+          <div class="column">
+            <button class="button is-rounded is-success" id="download-all">Download all</button>
+          </div>
+          <div class="column">
+            <button class="button is-rounded is-info" id="add-results-to-queue">
+              Add results to queue
+            </button>
+          </div>
+          <div class="column">
+            <button class="button is-rounded is-danger has-icons-left" id="clear-the-list">
+              Clear the queue
+            </button>
+          </div>
+        </div>
+      </footer>
     </div>
-    <footer class="has-background-black-ter mx-auto pb-3">
-      <div class="columns">
-        <div class="column">
-          <button class="button is-rounded is-success" id="download-all">Download all</button>
-        </div>
-        <div class="column">
-          <button class="button is-rounded is-info" id="add-results-to-queue">
-            Add results to queue
-          </button>
-        </div>
-        <div class="column">
-          <button class="button is-rounded is-danger has-icons-left" id="clear-the-list">
-            Clear the queue
-          </button>
-        </div>
-      </div>
-    </footer>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+          const $notification = $delete.parentNode;
+
+          $delete.addEventListener('click', () => {
+            $notification.parentNode.removeChild($notification);
+          });
+        });
+      });
+    </script>
     <script src="./scripts/App.js" type="module"></script>
   </body>
 </html>

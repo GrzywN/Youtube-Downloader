@@ -13,3 +13,6 @@ Odwrotny kolor kart, scrolla
 
 add titlebar and progress bars
 posortować wyświetleniami results
+
+wrzucic downloading success bezposrednio w download progress
+queueLOader eslint

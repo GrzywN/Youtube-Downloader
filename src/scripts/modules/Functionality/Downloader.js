@@ -42,8 +42,15 @@ export default class Downloader {
     } else if (this.selectedFormat === AUDIO_STR) {
       this.#downloadAudio(item);
     } else {
-      throw new Error('Downloader: Invalid format');
+      Downloader.#onInvalidFormat();
     }
+  }
+
+  static #onInvalidFormat() {
+    const errorString = `${this.constructor.name}: Invalid format`;
+
+    globalThis.notificationUI.createError(errorString);
+    throw new Error(errorString);
   }
 
   #downloadVideo(item) {

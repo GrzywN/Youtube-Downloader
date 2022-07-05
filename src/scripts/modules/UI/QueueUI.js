@@ -1,11 +1,27 @@
 export default class QueueUI {
-  constructor(container) {
-    this.containerEl = document.querySelector(container);
+  constructor(containerSelector) {
+    this.container = document.querySelector(containerSelector);
+
+    this.validateSelectors();
+
     this.subscribers = [];
   }
 
+  validateSelectors() {
+    if (this.container != null) return;
+
+    const errorString = `${this.constructor.name}: ${'container element not found'}`;
+
+    globalThis.notificationUI.createError(errorString);
+    throw new Error(errorString);
+  }
+
+  removeItem(item) {
+    const element = this.container.querySelector(`[data-id="${item.id}"]`);
+    this.container.removeChild(element);
+  }
+
   renderItem(item) {
-    if (this.containerEl == null) throw new Error('QueueUI: Container element not found');
     if (!QueueUI.#areArgumentsValid(item)) return;
 
     const element = QueueUI.#createElement(item);
@@ -81,16 +97,11 @@ export default class QueueUI {
   }
 
   #appendElement(element) {
-    this.containerEl.appendChild(element);
+    this.container.appendChild(element);
   }
 
   #notify(id, type) {
     this.subscribers.forEach((subscriber) => subscriber(id, type));
-  }
-
-  removeItem(item) {
-    const element = this.containerEl.querySelector(`[data-id="${item.id}"]`);
-    this.containerEl.removeChild(element);
   }
 
   subscribe(callback) {

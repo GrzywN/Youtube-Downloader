@@ -2,26 +2,29 @@ const ytpl = require('ytpl');
 const ytsr = require('ytsr');
 
 export default class SearchEngine {
-  setValue(value) {
+  search(value) {
     this.value = value;
-  }
-
-  search() {
-    if (this.value == null) throw new Error('SearchEngine: value is not set');
+    this.#validateValue();
 
     const isPlaylist = ytpl.validateID(this.value);
 
-    if (isPlaylist) {
-      return this.searchPlaylist(this.value);
-    }
-    return this.searchResults(this.value);
+    return isPlaylist ? this.#searchPlaylist(value) : this.#searchResults(value);
   }
 
-  searchPlaylist() {
+  #validateValue() {
+    if (this.value != null) return;
+
+    const errorString = `${this.constructor.name}: ${'input value is not provided or is empty'}`;
+
+    globalThis.notificationUI.createError(errorString);
+    throw new Error(errorString);
+  }
+
+  #searchPlaylist() {
     return ytpl(this.value);
   }
 
-  searchResults() {
+  #searchResults() {
     return ytsr(this.value, { pages: 1 });
   }
 }

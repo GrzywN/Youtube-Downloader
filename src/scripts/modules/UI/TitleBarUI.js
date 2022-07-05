@@ -8,8 +8,33 @@ export default class TitleBarUI {
     this.maximize = document.querySelector(maximize);
     this.close = document.querySelector(close);
 
+    this.validateSelectors();
+
     this.subscribers = [];
     this.setListeners();
+  }
+
+  validateSelectors() {
+    const errorArray = [];
+
+    if (this.minimize == null) {
+      errorArray.push('minimize element not found');
+    }
+
+    if (this.maximize == null) {
+      errorArray.push('maximize element not found');
+    }
+
+    if (this.close == null) {
+      errorArray.push('close element not found');
+    }
+
+    if (this.minimize == null || this.maximize == null || this.close == null) {
+      const errorString = `${this.constructor.name}: ${errorArray.join(', ')}`;
+
+      globalThis.notificationUI.createError(errorString);
+      throw new Error(errorString);
+    }
   }
 
   setListeners() {

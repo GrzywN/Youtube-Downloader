@@ -31,7 +31,14 @@ export default class DownloadProgress {
       element.value = progress;
       element.textContent = `${progress}%`;
 
-      if (element.value === 100) DownloadProgress.#setSuccessStyles(element);
+      if (element.value === 100) {
+        DownloadProgress.#setSuccessStyles(element);
+      }
     });
+  }
+
+  static getCurrentProgress(id) {
+    const progressBar = document.querySelector(`[data-progress-id="${id}"]`);
+    return progressBar.value;
   }
 }

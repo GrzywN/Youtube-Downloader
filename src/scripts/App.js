@@ -7,6 +7,7 @@ import GlobalButtonsUI from './modules/UI/GlobalButtonsUI.js';
 import OptionsUI from './modules/UI/OptionsUI.js';
 import TitleBarUI from './modules/UI/TitleBarUI.js';
 import DownloadProgress from './modules/UI/DownloadProgress.js';
+import NotificationUI from './modules/UI/NotificationUI.js';
 
 import ListItemFactory from './modules/Data/ListItemFactory.js';
 import ResultsList from './modules/Data/ResultsList.js';
@@ -17,6 +18,11 @@ import Downloader from './modules/Functionality/Downloader.js';
 import QueueLoader from './modules/Functionality/QueueLoader.js';
 
 const { ipcRenderer } = require('electron');
+
+// NotificationUI instance is globally available via globalThis.notificationUI
+// and must be initialized first.
+
+const notificationUI = new NotificationUI('#notification-field');
 
 const searchUI = new SearchUI('#search-input', '#search-button');
 const searchEngine = new SearchEngine();
@@ -45,19 +51,20 @@ const titleBar = new TitleBarUI({
 });
 
 async function onSearch(value) {
-  searchEngine.setValue(value);
-  const results = await searchEngine.search();
+  const results = await searchEngine.search(value);
+
   listItemFactory.createItems(results);
   const list = listItemFactory.getItems();
+
   resultsList.update(list);
   const listOfResults = resultsList.getList();
+
   resultsUI.setResultsList(listOfResults);
   resultsUI.renderResults();
 }
 
 function onResultEvent(id, type) {
   const item = resultsList.getItemFromID(id);
-
   switch (type) {
     case 'DOWNLOAD': {
       downloader.download(item);
@@ -76,7 +83,7 @@ function onResultEvent(id, type) {
     }
 
     default: {
-      throw new Error('App.js: Default case in onResultEvent (id, type)', id, type);
+      throw new Error(`App.js: Default case in onResultEvent (id, type) (${id}, ${type})`);
     }
   }
 }
@@ -96,7 +103,7 @@ function onQueueEvent(id, type) {
     }
 
     default: {
-      throw new Error('App.js: Default case in onQueueEvent (id, type)', id, type);
+      throw new Error(`App.js: Default case in onQueueEvent (id, type) (${id}, ${type})`);
     }
   }
 }
@@ -131,7 +138,7 @@ function onGlobalButtonEvent(type) {
     }
 
     default: {
-      throw new Error('App.js: Default case in onGlobalButtonEvent (type)', type);
+      throw new Error(`App.js: Default case in onGlobalButtonEvent (type) (${type})`);
     }
   }
 }
@@ -177,7 +184,7 @@ function onOptionEvent(type) {
     }
 
     default: {
-      throw new Error('App.js: Default case in onTitleBarEvent (type)', type);
+      throw new Error(`App.js: Default case in onOptionEvent (type) (${type})`);
     }
   }
 }
@@ -200,13 +207,16 @@ function onTitleBarEvent(type) {
     }
 
     default: {
-      throw new Error('App.js: Default case in onTitleBarEvent (type)', type);
+      throw new Error(`App.js: Default case in onTitleBarEvent (type) (${type})`);
     }
   }
 }
 
 function onDownload(id, stream) {
   DownloadProgress.registerProgress(id, stream);
+  stream.on('end', async () => {
+    notificationUI.createNotification('Downloading complete!', 'SUCCESS');
+  });
 }
 
 searchUI.subscribe((value) => onSearch(value));

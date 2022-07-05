@@ -4,8 +4,20 @@
 
 export default class ResultsUI {
   constructor(containerSelector) {
-    this.containerElement = document.querySelector(containerSelector);
+    this.container = document.querySelector(containerSelector);
+
+    this.validateSelectors();
+
     this.subscribers = [];
+  }
+
+  validateSelectors() {
+    if (this.container != null) return;
+
+    const errorString = `${this.constructor.name}: ${'container element not found'}`;
+
+    globalThis.notificationUI.createError(errorString);
+    throw new Error(errorString);
   }
 
   setResultsList(resultsList) {
@@ -13,8 +25,7 @@ export default class ResultsUI {
   }
 
   renderResults() {
-    if (this.containerElement == null) throw new Error('ResultsUI: Container element not found');
-    if (this.resultsList == null) throw new Error('ResultsUI: Results list not set');
+    this.validateList();
 
     this.#removePrevResults();
 
@@ -23,6 +34,15 @@ export default class ResultsUI {
     resultsArray.forEach((result) => {
       this.#renderResult(result);
     });
+  }
+
+  validateList() {
+    if (this.resultsList != null) return;
+
+    const errorString = `${this.constructor.name}: ${'Results list not set'}`;
+
+    globalThis.notificationUI.createError(errorString);
+    throw new Error(errorString);
   }
 
   #renderResult(result) {
@@ -101,18 +121,16 @@ export default class ResultsUI {
   }
 
   #appendElement(element) {
-    this.containerElement.appendChild(element);
+    this.container.appendChild(element);
   }
 
   #removePrevResults() {
     this.#removeAllListeners();
-    this.containerElement.innerHTML = '';
+    this.container.innerHTML = '';
   }
 
   #removeAllListeners() {
-    const buttons = this.containerElement.querySelectorAll(
-      '[id^="download-"], [id^="add-to-queue-"]'
-    );
+    const buttons = this.container.querySelectorAll('[id^="download-"], [id^="add-to-queue-"]');
 
     buttons.forEach((button) => (button.onclick = null));
   }

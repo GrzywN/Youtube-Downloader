@@ -4,6 +4,8 @@
 Youtube Downloader made with Electon JS and ytdl-core library. It can download single videos, query search results or query playlists.
 That means you can download whole playlists or search results with it. It's in beta, so not everything is fully implemented.
 
+**WARNING! IT HAS A LOT OF SECURITY ISSUES AND HAS NODE INTEGRATION SET TO TRUE FOR NOW! USE AT YOUR OWN RISK!** (but generally nothing wrong should happen)
+
 ## Installation
 
 Download / Clone the repo and install depedencies with `npm install`. You can than start dev with `npm start` or build it for your OS with `npm build`

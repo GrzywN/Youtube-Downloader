@@ -6,7 +6,7 @@ That means you can download whole playlists or search results with it. It's in b
 
 ## Installation
 
-Download / Clone the repo and install depedencies with npm install. You can than start dev with `npm start` or build it for your OS with `npm build`
+Download / Clone the repo and install depedencies with `npm install`. You can than start dev with `npm start` or build it for your OS with `npm build`
     
 ## Usage/Examples
 

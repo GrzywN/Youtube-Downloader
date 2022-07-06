@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="./styles/fonts.css" />
     <link rel="stylesheet" href="./styles/styles.css" />
   </head>
-  <body>
+  <body class="is-flex is-flex-direction-column is-justify-content-space-between">
     <div id="title-bar" class="message-header has-background-black-ter is-radiusless">
       <div class="is-flex is-align-items-center">
-        <img src="./assets/icon.png" alt="Logo" width="40" />
+        <img src="./assets/icon.png" alt="Logo" width="32" />
         <p class="has-text-light has-text-weight-bold ml-4">Youtube Downloader</p>
       </div>
       <div>
@@ -24,7 +24,7 @@
         <button class="delete" id="close-app" tabindex="-1"></button>
       </div>
     </div>
-    <div id="app" class="is-flex is-flex-direction-column is-justify-content-space-between">
+    <div id="app">
       <div id="notification-field"></div>
       <div class="columns is-flex-grow-1 is-flex-shrink-1">
         <div class="column p-5 has-background-grey-darker">
@@ -115,35 +115,24 @@
           </section>
         </div>
       </div>
-      <footer class="has-background-black-ter mx-auto pb-3">
-        <div class="columns">
-          <div class="column">
-            <button class="button is-rounded is-success" id="download-all">Download all</button>
-          </div>
-          <div class="column">
-            <button class="button is-rounded is-info" id="add-results-to-queue">
-              Add results to queue
-            </button>
-          </div>
-          <div class="column">
-            <button class="button is-rounded is-danger has-icons-left" id="clear-the-list">
-              Clear the queue
-            </button>
-          </div>
-        </div>
-      </footer>
     </div>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-          const $notification = $delete.parentNode;
-
-          $delete.addEventListener('click', () => {
-            $notification.parentNode.removeChild($notification);
-          });
-        });
-      });
-    </script>
+    <footer class="has-background-black-ter p-4 is-flex is-justify-content-center" id="footer">
+      <div class="columns">
+        <div class="column">
+          <button class="button is-rounded is-success" id="download-all">Download all</button>
+        </div>
+        <div class="column">
+          <button class="button is-rounded is-info" id="add-results-to-queue">
+            Add results to queue
+          </button>
+        </div>
+        <div class="column">
+          <button class="button is-rounded is-danger has-icons-left" id="clear-the-list">
+            Clear the queue
+          </button>
+        </div>
+      </div>
+    </footer>
     <script src="./scripts/App.js" type="module"></script>
   </body>
 </html>

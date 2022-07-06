@@ -10,7 +10,7 @@ Download / Clone the repo and install depedencies with `npm install`. You can th
     
 ## Usage/Examples
 
-![usage](../screenshot.gif)
+![usage](screenshot.gif)
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)

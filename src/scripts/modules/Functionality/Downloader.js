@@ -1,13 +1,11 @@
-/* eslint-disable import/no-extraneous-dependencies */
+const ytdl = require("ytdl-core");
+const ffmpeg = require("fluent-ffmpeg");
 
-const ytdl = require('ytdl-core');
-const ffmpeg = require('fluent-ffmpeg');
+const { ipcRenderer } = require("electron");
+const { createWriteStream } = require("fs");
 
-const { ipcRenderer } = require('electron');
-const { createWriteStream } = require('fs');
-
-const VIDEO_AUDIO_STR = 'Video & Audio';
-const AUDIO_STR = 'Audio only';
+const VIDEO_AUDIO_STR = "Video & Audio";
+const AUDIO_STR = "Audio only";
 
 export default class Downloader {
   constructor(formatSelectSelector) {
@@ -19,11 +17,11 @@ export default class Downloader {
   }
 
   static #getDefaultPath() {
-    return `${ipcRenderer.sendSync('getAppPath')}/downloads`;
+    return `${ipcRenderer.sendSync("getAppPath")}/downloads`;
   }
 
   #setIpcListener() {
-    ipcRenderer.on('pathChange', (event, path) => {
+    ipcRenderer.on("pathChange", (event, path) => {
       this.currentPath = path;
     });
   }
@@ -33,7 +31,7 @@ export default class Downloader {
   }
 
   static setPath() {
-    ipcRenderer.send('selectDirectory');
+    ipcRenderer.send("selectDirectory");
   }
 
   download(item) {
@@ -55,10 +53,10 @@ export default class Downloader {
 
   #downloadVideo(item) {
     const stream = ytdl(item.id, {
-      filter: (format) => format.container === 'mp4',
+      filter: (format) => format.container === "mp4",
     });
 
-    const filename = item.title.replaceAll('\\', '').replaceAll('/', '');
+    const filename = item.title.replaceAll("\\", "").replaceAll("/", "");
     stream.pipe(createWriteStream(`${this.currentPath}/${filename}.mp4`));
 
     const { id } = item;
@@ -67,11 +65,13 @@ export default class Downloader {
 
   #downloadAudio(item) {
     const stream = ytdl(`${item.url}`, {
-      quality: 'highestaudio',
+      quality: "highestaudio",
     });
 
-    const filename = item.title.replaceAll('\\', '').replaceAll('/', '');
-    ffmpeg(stream).audioBitrate(320).save(`${this.currentPath}/${filename}.mp3`);
+    const filename = item.title.replaceAll("\\", "").replaceAll("/", "");
+    ffmpeg(stream)
+      .audioBitrate(320)
+      .save(`${this.currentPath}/${filename}.mp3`);
 
     const { id } = item;
     this.#notify(id, stream);
@@ -86,6 +86,8 @@ export default class Downloader {
   }
 
   unsubscribe(callback) {
-    this.subscribers = this.subscribers.filter((subscriber) => subscriber !== callback);
+    this.subscribers = this.subscribers.filter(
+      (subscriber) => subscriber !== callback
+    );
   }
 }

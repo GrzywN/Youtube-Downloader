@@ -1,5 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies */
-const { ipcRenderer } = require('electron');
+/* eslint-disable class-methods-use-this */
+
+const { ipcRenderer } = require("electron");
 
 export default class QueueLoader {
   constructor() {
@@ -15,7 +16,7 @@ export default class QueueLoader {
   }
 
   save(currentQueue) {
-    ipcRenderer.send('saveQueue', currentQueue);
+    ipcRenderer.send("saveQueue", currentQueue);
   }
 
   load() {
@@ -33,7 +34,7 @@ export default class QueueLoader {
   }
 
   static #sendDialog() {
-    return ipcRenderer.sendSync('loadQueue');
+    return ipcRenderer.sendSync("loadQueue");
   }
 
   #set(queue) {
@@ -56,15 +57,15 @@ export default class QueueLoader {
 
   static #verifyItem(item) {
     if (
-      typeof item.title === 'string'
-      && typeof item.thumbnailURL === 'object'
-      && typeof item.duration === 'string'
-      && typeof item.id === 'string'
-      && typeof item.url === 'string'
-      && typeof item.type === 'string'
-      && typeof item.isLive === 'boolean'
-      && typeof item.isUpcoming === 'boolean'
-      && typeof item.enabled === 'boolean'
+      typeof item.title === "string" &&
+      typeof item.thumbnailURL === "object" &&
+      typeof item.duration === "string" &&
+      typeof item.id === "string" &&
+      typeof item.url === "string" &&
+      typeof item.type === "string" &&
+      typeof item.isLive === "boolean" &&
+      typeof item.isUpcoming === "boolean" &&
+      typeof item.enabled === "boolean"
     ) {
       return true;
     }

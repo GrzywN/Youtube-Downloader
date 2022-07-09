@@ -13,15 +13,15 @@ export default class SearchUI {
     const errorArray = [];
 
     if (this.input == null) {
-      errorArray.push('input element not found');
+      errorArray.push("input element not found");
     }
 
     if (this.button == null) {
-      errorArray.push('button element not found');
+      errorArray.push("button element not found");
     }
 
     if (this.input == null || this.button == null) {
-      const errorString = `${this.constructor.name}: ${errorArray.join(', ')}`;
+      const errorString = `${this.constructor.name}: ${errorArray.join(", ")}`;
 
       globalThis.notificationUI.createError(errorString);
       throw new Error(errorString);
@@ -29,9 +29,9 @@ export default class SearchUI {
   }
 
   setListeners() {
-    this.button.addEventListener('click', this.getInputValue.bind(this));
-    this.input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') this.getInputValue();
+    this.button.addEventListener("click", this.getInputValue.bind(this));
+    this.input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") this.getInputValue();
     });
   }
 
@@ -47,7 +47,9 @@ export default class SearchUI {
   }
 
   unsubscribe(callback) {
-    this.subscribers = this.subscribers.filter((subscriber) => subscriber !== callback);
+    this.subscribers = this.subscribers.filter(
+      (subscriber) => subscriber !== callback
+    );
   }
 
   #notify(value) {

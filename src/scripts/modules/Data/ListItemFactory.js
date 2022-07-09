@@ -1,6 +1,4 @@
-/* eslint-disable import/extensions */
-
-import ListItem from './ListItem.js';
+import ListItem from "./ListItem.js";
 
 export default class ListItemFactory {
   createItems(results) {

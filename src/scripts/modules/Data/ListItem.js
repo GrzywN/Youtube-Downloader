@@ -13,7 +13,7 @@ export default class ListItem {
   }
 
   isAbleToDownload() {
-    if (this.type == null) this.type = 'video';
-    return this.type === 'video' && !this.isLive && !this.isUpcoming;
+    if (this.type == null) this.type = "video";
+    return this.type === "video" && !this.isLive && !this.isUpcoming;
   }
 }

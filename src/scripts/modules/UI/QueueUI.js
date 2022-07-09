@@ -10,7 +10,9 @@ export default class QueueUI {
   validateSelectors() {
     if (this.container != null) return;
 
-    const errorString = `${this.constructor.name}: ${'container element not found'}`;
+    const errorString = `${
+      this.constructor.name
+    }: ${"container element not found"}`;
 
     globalThis.notificationUI.createError(errorString);
     throw new Error(errorString);
@@ -31,10 +33,10 @@ export default class QueueUI {
 
   static #areArgumentsValid(item) {
     if (
-      item.thumbnailURL != null
-      && item.title != null
-      && item.duration != null
-      && item.id != null
+      item.thumbnailURL != null &&
+      item.title != null &&
+      item.duration != null &&
+      item.id != null
     ) {
       return true;
     }
@@ -42,9 +44,9 @@ export default class QueueUI {
   }
 
   static #createElement(item) {
-    const element = document.createElement('div');
+    const element = document.createElement("div");
     element.dataset.id = item.id;
-    element.classList.add('block');
+    element.classList.add("block");
     const html = QueueUI.#getHTMLfromTemplate(item);
     element.innerHTML = html;
     return element;
@@ -64,7 +66,9 @@ export default class QueueUI {
                 ${item.title}
               </a>
             </h2>
-            <p class="subtitle is-size-7 has-text-light"><time>${item.duration}</time></p>
+            <p class="subtitle is-size-7 has-text-light"><time>${
+              item.duration
+            }</time></p>
           </div>
           <progress data-progress-id="${item.id}"
           class="block progress is-link" value="" max="100"></progress>
@@ -72,7 +76,7 @@ export default class QueueUI {
             <button
               class="button is-rounded is-success has-text-dark"
               id="download-${item.id}"
-              ${item.enabled ? '' : 'disabled'}
+              ${item.enabled ? "" : "disabled"}
             >
               Download
             </button>
@@ -89,11 +93,23 @@ export default class QueueUI {
   }
 
   #addListeners(element) {
-    const downloadBtn = element.querySelector(`#download-${element.dataset.id}`);
-    const removeFromQueueBtn = element.querySelector(`#remove-from-queue-${element.dataset.id}`);
+    const downloadBtn = element.querySelector(
+      `#download-${element.dataset.id}`
+    );
+    const removeFromQueueBtn = element.querySelector(
+      `#remove-from-queue-${element.dataset.id}`
+    );
 
-    downloadBtn.onclick = this.#notify.bind(this, element.dataset.id, 'DOWNLOAD');
-    removeFromQueueBtn.onclick = this.#notify.bind(this, element.dataset.id, 'REMOVE_FROM_QUEUE');
+    downloadBtn.onclick = this.#notify.bind(
+      this,
+      element.dataset.id,
+      "DOWNLOAD"
+    );
+    removeFromQueueBtn.onclick = this.#notify.bind(
+      this,
+      element.dataset.id,
+      "REMOVE_FROM_QUEUE"
+    );
   }
 
   #appendElement(element) {
@@ -109,6 +125,8 @@ export default class QueueUI {
   }
 
   unsubscribe(callback) {
-    this.subscribers = this.subscribers.filter((subscriber) => subscriber !== callback);
+    this.subscribers = this.subscribers.filter(
+      (subscriber) => subscriber !== callback
+    );
   }
 }

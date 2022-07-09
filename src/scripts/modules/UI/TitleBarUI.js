@@ -1,6 +1,6 @@
-const CLOSE = 'CLOSE';
-const MINIMIZE = 'MINIMIZE';
-const MAXIMIZE = 'MAXIMIZE';
+const CLOSE = "CLOSE";
+const MINIMIZE = "MINIMIZE";
+const MAXIMIZE = "MAXIMIZE";
 
 export default class TitleBarUI {
   constructor({ minimize, maximize, close }) {
@@ -18,19 +18,19 @@ export default class TitleBarUI {
     const errorArray = [];
 
     if (this.minimize == null) {
-      errorArray.push('minimize element not found');
+      errorArray.push("minimize element not found");
     }
 
     if (this.maximize == null) {
-      errorArray.push('maximize element not found');
+      errorArray.push("maximize element not found");
     }
 
     if (this.close == null) {
-      errorArray.push('close element not found');
+      errorArray.push("close element not found");
     }
 
     if (this.minimize == null || this.maximize == null || this.close == null) {
-      const errorString = `${this.constructor.name}: ${errorArray.join(', ')}`;
+      const errorString = `${this.constructor.name}: ${errorArray.join(", ")}`;
 
       globalThis.notificationUI.createError(errorString);
       throw new Error(errorString);
@@ -38,9 +38,9 @@ export default class TitleBarUI {
   }
 
   setListeners() {
-    this.minimize.addEventListener('click', this.#notify.bind(this, MINIMIZE));
-    this.maximize.addEventListener('click', this.#notify.bind(this, MAXIMIZE));
-    this.close.addEventListener('click', this.#notify.bind(this, CLOSE));
+    this.minimize.addEventListener("click", this.#notify.bind(this, MINIMIZE));
+    this.maximize.addEventListener("click", this.#notify.bind(this, MAXIMIZE));
+    this.close.addEventListener("click", this.#notify.bind(this, CLOSE));
   }
 
   #notify(type) {
@@ -52,6 +52,8 @@ export default class TitleBarUI {
   }
 
   unsubscribe(callback) {
-    this.subscribers = this.subscribers.filter((subscriber) => subscriber !== callback);
+    this.subscribers = this.subscribers.filter(
+      (subscriber) => subscriber !== callback
+    );
   }
 }

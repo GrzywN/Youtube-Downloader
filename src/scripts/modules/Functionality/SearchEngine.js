@@ -1,5 +1,5 @@
-const ytpl = require('ytpl');
-const ytsr = require('ytsr');
+const ytpl = require("ytpl");
+const ytsr = require("ytsr");
 
 export default class SearchEngine {
   search(value) {
@@ -8,13 +8,17 @@ export default class SearchEngine {
 
     const isPlaylist = ytpl.validateID(this.value);
 
-    return isPlaylist ? this.#searchPlaylist(value) : this.#searchResults(value);
+    return isPlaylist
+      ? this.#searchPlaylist(value)
+      : this.#searchResults(value);
   }
 
   #validateValue() {
     if (this.value != null) return;
 
-    const errorString = `${this.constructor.name}: ${'input value is not provided or is empty'}`;
+    const errorString = `${
+      this.constructor.name
+    }: ${"input value is not provided or is empty"}`;
 
     globalThis.notificationUI.createError(errorString);
     throw new Error(errorString);

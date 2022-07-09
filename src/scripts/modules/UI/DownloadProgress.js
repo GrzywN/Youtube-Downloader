@@ -1,14 +1,15 @@
-/* eslint-disable no-param-reassign */
 export default class DownloadProgress {
   static registerProgress(id, stream) {
-    const progressBars = document.querySelectorAll(`[data-progress-id="${id}"]`);
+    const progressBars = document.querySelectorAll(
+      `[data-progress-id="${id}"]`
+    );
 
     progressBars.forEach((element) => {
-      element.value = '';
+      element.value = "";
       DownloadProgress.#setDownloadingStyles(element);
     });
 
-    stream.on('progress', (chunkLength, downloaded, total) => {
+    stream.on("progress", (chunkLength, downloaded, total) => {
       const percent = downloaded / total;
       const progressValue = `${(percent * 100).toFixed(2)}`;
 
@@ -17,13 +18,13 @@ export default class DownloadProgress {
   }
 
   static #setDownloadingStyles(element) {
-    element.classList.remove('is-success');
-    element.classList.add('is-link');
+    element.classList.remove("is-success");
+    element.classList.add("is-link");
   }
 
   static #setSuccessStyles(element) {
-    element.classList.remove('is-link');
-    element.classList.add('is-success');
+    element.classList.remove("is-link");
+    element.classList.add("is-success");
   }
 
   static #updateProgress(progressBars, progress) {

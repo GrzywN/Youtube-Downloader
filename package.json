@@ -10,7 +10,9 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .js src",
-    "lint:fix": "eslint --fix --ext .js src"
+    "lint:fix": "eslint --fix --ext .js src",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "keywords": [],
   "author": {
@@ -61,11 +63,13 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
+    "c8": "^7.11.3",
     "electron": "19.0.4",
     "eslint": "^8.18.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "vitest": "^0.18.0"
   }
 }

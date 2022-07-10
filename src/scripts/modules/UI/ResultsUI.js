@@ -27,12 +27,12 @@ export default class ResultsUI {
   renderResults() {
     this.validateList();
 
-    this.#removePrevResults();
+    this.removePrevResults();
 
     const resultsArray = Object.values(this.resultsList);
 
     resultsArray.forEach((result) => {
-      this.#renderResult(result);
+      this.renderResult(result);
     });
   }
 
@@ -45,15 +45,15 @@ export default class ResultsUI {
     throw new Error(errorString);
   }
 
-  #renderResult(result) {
-    if (!ResultsUI.#areArgumentsValid(result)) return;
-    const element = ResultsUI.#createElement(result);
+  renderResult(result) {
+    if (!ResultsUI.areArgumentsValid(result)) return;
+    const element = ResultsUI.createElement(result);
 
-    this.#addListeners(element);
-    this.#appendElement(element);
+    this.addListeners(element);
+    this.appendElement(element);
   }
 
-  static #areArgumentsValid(result) {
+  static areArgumentsValid(result) {
     if (
       result.thumbnailURL != null &&
       result.title != null &&
@@ -65,17 +65,17 @@ export default class ResultsUI {
     return false;
   }
 
-  static #createElement(result) {
+  static createElement(result) {
     const element = document.createElement("div");
     element.dataset.id = result.id;
     element.classList.add("block");
 
-    const html = ResultsUI.#getHTMLfromTemplate(result);
+    const html = ResultsUI.getHTMLfromTemplate(result);
     element.innerHTML = html;
     return element;
   }
 
-  static #getHTMLfromTemplate(result) {
+  static getHTMLfromTemplate(result) {
     return `
         <div class="media box has-background-grey-dark is-flex is-align-items-center">
             <figure class="media-left image thumbnail">
@@ -120,7 +120,7 @@ export default class ResultsUI {
     `;
   }
 
-  #addListeners(element) {
+  addListeners(element) {
     const downloadButton = element.querySelector(
       `#download-${element.dataset.id}`
     );
@@ -128,28 +128,28 @@ export default class ResultsUI {
       `#add-to-queue-${element.dataset.id}`
     );
 
-    downloadButton.onclick = this.#notify.bind(
+    downloadButton.onclick = this.notify.bind(
       this,
       element.dataset.id,
       "DOWNLOAD"
     );
-    addToQueueButton.onclick = this.#notify.bind(
+    addToQueueButton.onclick = this.notify.bind(
       this,
       element.dataset.id,
       "ADD_TO_QUEUE"
     );
   }
 
-  #appendElement(element) {
+  appendElement(element) {
     this.container.appendChild(element);
   }
 
-  #removePrevResults() {
-    this.#removeAllListeners();
+  removePrevResults() {
+    this.removeAllListeners();
     this.container.innerHTML = "";
   }
 
-  #removeAllListeners() {
+  removeAllListeners() {
     const buttons = this.container.querySelectorAll(
       '[id^="download-"], [id^="add-to-queue-"]'
     );
@@ -157,7 +157,7 @@ export default class ResultsUI {
     buttons.forEach((button) => (button.onclick = null));
   }
 
-  #notify(id, type) {
+  notify(id, type) {
     this.subscribers.forEach((subscriber) => subscriber(id, type));
   }
 

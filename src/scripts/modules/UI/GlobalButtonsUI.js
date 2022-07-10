@@ -6,7 +6,7 @@ export default class GlobalButtonsUI {
 
     this.validateSelectors();
 
-    this.#setListeners();
+    this.setListeners();
     this.subscribers = [];
   }
 
@@ -37,16 +37,16 @@ export default class GlobalButtonsUI {
     }
   }
 
-  #setListeners() {
-    this.downloadAll.onclick = this.#notify.bind(this, "DOWNLOAD_ALL");
-    this.addResultsToQueue.onclick = this.#notify.bind(
+  setListeners() {
+    this.downloadAll.onclick = this.notify.bind(this, "DOWNLOAD_ALL");
+    this.addResultsToQueue.onclick = this.notify.bind(
       this,
       "ADD_RESULTS_TO_QUEUE"
     );
-    this.clearQueue.onclick = this.#notify.bind(this, "CLEAR_THE_QUEUE");
+    this.clearQueue.onclick = this.notify.bind(this, "CLEAR_THE_QUEUE");
   }
 
-  #notify(type) {
+  notify(type) {
     this.subscribers.forEach((subscriber) => subscriber(type));
   }
 

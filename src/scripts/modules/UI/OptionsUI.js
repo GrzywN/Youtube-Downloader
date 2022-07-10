@@ -7,7 +7,7 @@ export default class OptionsUI {
 
     this.validateSelectors();
 
-    this.#setListeners();
+    this.setListeners();
     this.subscribers = [];
   }
 
@@ -43,14 +43,14 @@ export default class OptionsUI {
     }
   }
 
-  #setListeners() {
-    this.formatSelect.onchange = this.#notify.bind(this, "CHANGE_FORMAT");
-    this.selectPath.onclick = this.#notify.bind(this, "SELECT_PATH");
-    this.loadQueue.onclick = this.#notify.bind(this, "LOAD_QUEUE");
-    this.saveQueue.onclick = this.#notify.bind(this, "SAVE_QUEUE");
+  setListeners() {
+    this.formatSelect.onchange = this.notify.bind(this, "CHANGE_FORMAT");
+    this.selectPath.onclick = this.notify.bind(this, "SELECT_PATH");
+    this.loadQueue.onclick = this.notify.bind(this, "LOAD_QUEUE");
+    this.saveQueue.onclick = this.notify.bind(this, "SAVE_QUEUE");
   }
 
-  #notify(type) {
+  notify(type) {
     this.subscribers.forEach((subscriber) => subscriber(type));
   }
 

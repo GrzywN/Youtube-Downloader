@@ -4,16 +4,14 @@ const ytsr = require("ytsr");
 export default class SearchEngine {
   search(value) {
     this.value = value;
-    this.#validateValue();
+    this.validateValue();
 
     const isPlaylist = ytpl.validateID(this.value);
 
-    return isPlaylist
-      ? this.#searchPlaylist(value)
-      : this.#searchResults(value);
+    return isPlaylist ? this.searchPlaylist(value) : this.searchResults(value);
   }
 
-  #validateValue() {
+  validateValue() {
     if (this.value != null) return;
 
     const errorString = `${
@@ -24,11 +22,11 @@ export default class SearchEngine {
     throw new Error(errorString);
   }
 
-  #searchPlaylist() {
+  searchPlaylist() {
     return ytpl(this.value);
   }
 
-  #searchResults() {
+  searchResults() {
     return ytsr(this.value, { pages: 1 });
   }
 }

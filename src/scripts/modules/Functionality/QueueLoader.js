@@ -20,34 +20,34 @@ export default class QueueLoader {
   }
 
   load() {
-    this.#clearPrevious();
+    this.clearPrevious();
 
-    const queue = QueueLoader.#sendDialog();
+    const queue = QueueLoader.sendDialog();
     if (queue instanceof Error) return;
 
-    this.#set(queue);
+    this.set(queue);
   }
 
-  #clearPrevious() {
+  clearPrevious() {
     delete this.loadedQueue;
     this.loadedQueue = {};
   }
 
-  static #sendDialog() {
+  static sendDialog() {
     return ipcRenderer.sendSync("loadQueue");
   }
 
-  #set(queue) {
-    this.loadedQueue = QueueLoader.#filter(queue);
+  set(queue) {
+    this.loadedQueue = QueueLoader.filter(queue);
   }
 
-  static #filter(parsedJson) {
+  static filter(parsedJson) {
     const filteredQueue = {};
 
     const parsedJsonArray = Object.keys(parsedJson);
 
     parsedJsonArray.forEach((key) => {
-      if (QueueLoader.#verifyItem(parsedJson[key])) {
+      if (QueueLoader.verifyItem(parsedJson[key])) {
         filteredQueue[key] = parsedJson[key];
       }
     });
@@ -55,7 +55,7 @@ export default class QueueLoader {
     return filteredQueue;
   }
 
-  static #verifyItem(item) {
+  static verifyItem(item) {
     if (
       typeof item.title === "string" &&
       typeof item.thumbnailURL === "object" &&

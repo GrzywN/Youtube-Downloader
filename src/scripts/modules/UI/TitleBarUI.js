@@ -38,12 +38,12 @@ export default class TitleBarUI {
   }
 
   setListeners() {
-    this.minimize.addEventListener("click", this.#notify.bind(this, MINIMIZE));
-    this.maximize.addEventListener("click", this.#notify.bind(this, MAXIMIZE));
-    this.close.addEventListener("click", this.#notify.bind(this, CLOSE));
+    this.minimize.addEventListener("click", this.notify.bind(this, MINIMIZE));
+    this.maximize.addEventListener("click", this.notify.bind(this, MAXIMIZE));
+    this.close.addEventListener("click", this.notify.bind(this, CLOSE));
   }
 
-  #notify(type) {
+  notify(type) {
     this.subscribers.forEach((subscriber) => subscriber(type));
   }
 

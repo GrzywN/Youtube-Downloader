@@ -24,14 +24,14 @@ export default class QueueUI {
   }
 
   renderItem(item) {
-    if (!QueueUI.#areArgumentsValid(item)) return;
+    if (!QueueUI.areArgumentsValid(item)) return;
 
-    const element = QueueUI.#createElement(item);
-    this.#addListeners(element);
-    this.#appendElement(element);
+    const element = QueueUI.createElement(item);
+    this.addListeners(element);
+    this.appendElement(element);
   }
 
-  static #areArgumentsValid(item) {
+  static areArgumentsValid(item) {
     if (
       item.thumbnailURL != null &&
       item.title != null &&
@@ -43,16 +43,16 @@ export default class QueueUI {
     return false;
   }
 
-  static #createElement(item) {
+  static createElement(item) {
     const element = document.createElement("div");
     element.dataset.id = item.id;
     element.classList.add("block");
-    const html = QueueUI.#getHTMLfromTemplate(item);
+    const html = QueueUI.getHTMLfromTemplate(item);
     element.innerHTML = html;
     return element;
   }
 
-  static #getHTMLfromTemplate(item) {
+  static getHTMLfromTemplate(item) {
     return `
       <div class="media box has-background-grey-darker is-flex is-align-items-center">
         <figure class="media-left image thumbnail">
@@ -92,7 +92,7 @@ export default class QueueUI {
     `;
   }
 
-  #addListeners(element) {
+  addListeners(element) {
     const downloadBtn = element.querySelector(
       `#download-${element.dataset.id}`
     );
@@ -100,23 +100,23 @@ export default class QueueUI {
       `#remove-from-queue-${element.dataset.id}`
     );
 
-    downloadBtn.onclick = this.#notify.bind(
+    downloadBtn.onclick = this.notify.bind(
       this,
       element.dataset.id,
       "DOWNLOAD"
     );
-    removeFromQueueBtn.onclick = this.#notify.bind(
+    removeFromQueueBtn.onclick = this.notify.bind(
       this,
       element.dataset.id,
       "REMOVE_FROM_QUEUE"
     );
   }
 
-  #appendElement(element) {
+  appendElement(element) {
     this.container.appendChild(element);
   }
 
-  #notify(id, type) {
+  notify(id, type) {
     this.subscribers.forEach((subscriber) => subscriber(id, type));
   }
 

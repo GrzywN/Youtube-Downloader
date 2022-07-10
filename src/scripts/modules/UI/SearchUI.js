@@ -39,7 +39,7 @@ export default class SearchUI {
     const { value } = this.input;
     if (value.length === 0) return;
 
-    this.#notify(value);
+    this.notify(value);
   }
 
   subscribe(callback) {
@@ -52,7 +52,7 @@ export default class SearchUI {
     );
   }
 
-  #notify(value) {
+  notify(value) {
     this.subscribers.forEach((subscriber) => subscriber(value));
   }
 }

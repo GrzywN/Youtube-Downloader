@@ -37,43 +37,43 @@ export default class NotificationUI {
     this.notification = notification;
     this.type = type;
 
-    this.#clearLastNotification();
-    this.#renderNotification();
+    this.clearLastNotification();
+    this.renderNotification();
   }
 
-  #clearLastNotification(deleteButton) {
+  clearLastNotification(deleteButton) {
     if (deleteButton != null) {
       deleteButton.onclick = null;
     }
     this.containerElement.innerHTML = "";
   }
 
-  #renderNotification() {
-    const element = this.#createElement();
-    this.#appendElement(element);
+  renderNotification() {
+    const element = this.createElement();
+    this.appendElement(element);
   }
 
-  #createElement() {
+  createElement() {
     const element = document.createElement("div");
-    const html = this.#getHTMLfromTemplate();
+    const html = this.getHTMLfromTemplate();
     element.innerHTML = html;
 
     const deleteButton = element.querySelector("button.delete");
-    deleteButton.onclick = () => this.#clearLastNotification(deleteButton);
+    deleteButton.onclick = () => this.clearLastNotification(deleteButton);
 
     return element;
   }
 
-  #getHTMLfromTemplate() {
+  getHTMLfromTemplate() {
     return `
-        <div class="notification ${this.#getStyleClass()}">
+        <div class="notification ${this.getStyleClass()}">
           <button class="delete"></button>
           ${this.notification}
         </div>
       `;
   }
 
-  #getStyleClass() {
+  getStyleClass() {
     switch (this.type) {
       case SUCCESS:
         return "is-success";
@@ -86,7 +86,7 @@ export default class NotificationUI {
     }
   }
 
-  #appendElement(element) {
+  appendElement(element) {
     this.containerElement.appendChild(element);
   }
 }

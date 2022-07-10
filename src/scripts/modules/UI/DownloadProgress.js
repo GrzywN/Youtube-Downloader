@@ -6,34 +6,34 @@ export default class DownloadProgress {
 
     progressBars.forEach((element) => {
       element.value = "";
-      DownloadProgress.#setDownloadingStyles(element);
+      DownloadProgress.setDownloadingStyles(element);
     });
 
     stream.on("progress", (chunkLength, downloaded, total) => {
       const percent = downloaded / total;
       const progressValue = `${(percent * 100).toFixed(2)}`;
 
-      DownloadProgress.#updateProgress(progressBars, progressValue);
+      DownloadProgress.updateProgress(progressBars, progressValue);
     });
   }
 
-  static #setDownloadingStyles(element) {
+  static setDownloadingStyles(element) {
     element.classList.remove("is-success");
     element.classList.add("is-link");
   }
 
-  static #setSuccessStyles(element) {
+  static setSuccessStyles(element) {
     element.classList.remove("is-link");
     element.classList.add("is-success");
   }
 
-  static #updateProgress(progressBars, progress) {
+  static updateProgress(progressBars, progress) {
     progressBars.forEach((element) => {
       element.value = progress;
       element.textContent = `${progress}%`;
 
       if (element.value === 100) {
-        DownloadProgress.#setSuccessStyles(element);
+        DownloadProgress.setSuccessStyles(element);
       }
     });
   }

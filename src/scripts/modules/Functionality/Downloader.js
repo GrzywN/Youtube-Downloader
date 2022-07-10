@@ -10,17 +10,17 @@ const AUDIO_STR = "Audio only";
 export default class Downloader {
   constructor(formatSelectSelector) {
     this.formatSelectElement = document.querySelector(formatSelectSelector);
-    this.currentPath = Downloader.#getDefaultPath();
-    this.#setIpcListener();
+    this.currentPath = Downloader.getDefaultPath();
+    this.setIpcListener();
     this.selectedFormat = VIDEO_AUDIO_STR;
     this.subscribers = [];
   }
 
-  static #getDefaultPath() {
+  static getDefaultPath() {
     return `${ipcRenderer.sendSync("getAppPath")}/downloads`;
   }
 
-  #setIpcListener() {
+  setIpcListener() {
     ipcRenderer.on("pathChange", (event, path) => {
       this.currentPath = path;
     });
@@ -36,22 +36,22 @@ export default class Downloader {
 
   download(item) {
     if (this.selectedFormat === VIDEO_AUDIO_STR) {
-      this.#downloadVideo(item);
+      this.downloadVideo(item);
     } else if (this.selectedFormat === AUDIO_STR) {
-      this.#downloadAudio(item);
+      this.downloadAudio(item);
     } else {
-      Downloader.#onInvalidFormat();
+      Downloader.onInvalidFormat();
     }
   }
 
-  static #onInvalidFormat() {
+  static onInvalidFormat() {
     const errorString = `${this.constructor.name}: Invalid format`;
 
     globalThis.notificationUI.createError(errorString);
     throw new Error(errorString);
   }
 
-  #downloadVideo(item) {
+  downloadVideo(item) {
     const stream = ytdl(item.id, {
       filter: (format) => format.container === "mp4",
     });
@@ -60,10 +60,10 @@ export default class Downloader {
     stream.pipe(createWriteStream(`${this.currentPath}/${filename}.mp4`));
 
     const { id } = item;
-    this.#notify(id, stream);
+    this.notify(id, stream);
   }
 
-  #downloadAudio(item) {
+  downloadAudio(item) {
     const stream = ytdl(`${item.url}`, {
       quality: "highestaudio",
     });
@@ -74,10 +74,10 @@ export default class Downloader {
       .save(`${this.currentPath}/${filename}.mp3`);
 
     const { id } = item;
-    this.#notify(id, stream);
+    this.notify(id, stream);
   }
 
-  #notify(id, stream) {
+  notify(id, stream) {
     this.subscribers.forEach((callback) => callback(id, stream));
   }
 

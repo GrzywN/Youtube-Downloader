@@ -71,6 +71,8 @@ Simple youtube downloader which makes downloading youtube videos, high quality m
 
 - Bulma v0.9.4
 
+- Vanilla JavaScript ES6+
+
 - ytdl-core, ytpl, ytsr, fluent-ffmpeg
 
 - Vitest ^0.18.0

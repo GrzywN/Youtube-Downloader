@@ -101,7 +101,7 @@ $ npm start
 
 ## Build for your own operating system
 
-To build the application for your own operating system, you'll need to setup development enviroment and run `npm build` command. 
+To build the application for your own operating system, you'll need to setup development enviroment and run `npm make` command. 
 
 ---
 
